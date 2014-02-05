@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @filing.title %>
+</p>
+
+<p>
+  <strong>Url:</strong>
+  <%= @filing.url %>
+</p>
+
+<p>
+  <strong>Links:</strong>
+  <%= @filing.links %>
+</p>
+
+<p>
+  <strong>Summary:</strong>
+  <%= @filing.summary %>
+</p>
+
+<p>
+  <strong>Updated:</strong>
+  <%= @filing.updated %>
+</p>
+
+<p>
+  <strong>Categories:</strong>
+  <%= @filing.categories %>
+</p>
+
+<p>
+  <strong>Id:</strong>
+  <%= @filing.id %>
+</p>
+
+<%= link_to 'Edit', edit_filing_path(@filing) %> |
+<%= link_to 'Back', filings_path %>

@@ -1,0 +1,40 @@
+<h1>Listing filings</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Url</th>
+      <th>Links</th>
+      <th>Summary</th>
+      <th>Updated</th>
+      <th>Categories</th>
+      <th>Id</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @filings.each do |filing| %>
+      <tr>
+        <td><%= filing.title %></td>
+        <td><%= link_to filing.url, filing.url %></td>
+        <td><%= filing.links %></td>
+        <td><%= filing.summary %></td>
+        <td><%= filing.updated %></td>
+        <td><%= filing.categories %></td>
+        <td><%= filing.file_id  %></td>
+        <td><%= filing.id %></td>
+        <td><%= link_to 'Show', filing %></td>
+        <td><%= link_to 'Edit', edit_filing_path(filing) %></td>
+        <td><%= link_to 'Destroy', filing, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Filing', new_filing_path %>

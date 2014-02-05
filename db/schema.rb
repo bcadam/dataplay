@@ -22,4 +22,14 @@ ActiveRecord::Schema.define(version: 20140205054804) do
     t.datetime "updated_at"
   end
 
+  create_table "filings", force: true do |t|
+  	t.string "title"
+  	t.string "url"
+  	t.string "links"
+  	t.string "summary"
+  	t.date "updated"
+  	t.string "categories"
+  	t.string "file_id"
+  end
+
 end

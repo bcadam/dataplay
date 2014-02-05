@@ -1,4 +1,49 @@
+
 <h3>Home</h3>
-<% @users.each do |user| %>
-  <p>User: <%=link_to user.name, user %></p>
-<% end %>
+<div class="row">
+<%
+
+require 'feedzirra'
+require 'rubygems'
+require 'sanitize'
+
+
+# fetching a single feed
+feed = Feedzirra::Feed.fetch_and_parse("http://www.sec.gov/cgi-bin/browse-edgar?action=getcurrent&type=&company=&dateb=&owner=include&start=0&count=100&output=atom")
+
+# feed and entries accessors
+#feed.title          # => "Paul Dix Explains Nothing"
+#feed.url            # => "http://www.pauldix.net"
+#feed.feed_url       # => "http://feeds.feedburner.com/PaulDixExplainsNothing"
+#feed.etag           # => "GunxqnEP4NeYhrqq9TyVKTuDnh0"
+#feed.last_modified  # => Sat Jan 31 17:58:16 -0500 2009 # it's a Time object
+
+%>
+<%
+ 	entry = feed.entries.first 
+	entry.title 	
+	entry.summary.sanitize 	
+	entry.categories
+	entry.entry_id
+%>
+
+<%=
+
+feed.entries.each do |entry|
+	@filing = Filing.new
+
+	@filing.title      = entry.title
+	@filing.url        = entry.url 
+	@filing.links      = entry.links 
+	@filing.summary    = entry.summary 
+	@filing.updated    = entry.updated 
+	@filing.categories = entry.categories 
+	@filing.file_id    = entry.entry_id 
+
+	@filing.save
+
+	
+end
+
+
+%>
