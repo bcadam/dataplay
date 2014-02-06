@@ -8,6 +8,30 @@ class FilingsController < ApplicationController
     @filings = Filing.all
   end
 
+  def import
+    require 'feedzirra'
+    require 'rubygems'
+    require 'sanitize'
+
+    feed = Feedzirra::Feed.fetch_and_parse("http://www.sec.gov/cgi-bin/browse-edgar?action=getcurrent&type=&company=&dateb=&owner=include&start=0&count=100&output=atom")
+    feed.entries.each do |entry|
+
+    #@filing = Filing.new
+
+    @filing = Filing.find_or_create_by(file_id: entry.entry_id )
+    @filing.title      = entry.title.sub( entry.categories.join(" ") + " - ", '')
+    @filing.url        = entry.url 
+    @filing.links      = entry.links.join(" ")
+    @filing.summary    = entry.summary 
+    @filing.updated    = entry.updated 
+    @filing.categories = entry.categories.join(" ")
+    @filing.file_id    = entry.entry_id
+    @filing.cik        = entry.title.match('\d{10}').to_s
+    @filing.save
+
+    end
+  end
+
   def backlog
 
     require 'feedzirra'
@@ -103,28 +127,7 @@ class FilingsController < ApplicationController
     end
   end
 
-  def import
-    require 'feedzirra'
-    require 'rubygems'
-    require 'sanitize'
-
-    feed = Feedzirra::Feed.fetch_and_parse("http://www.sec.gov/cgi-bin/browse-edgar?action=getcurrent&type=&company=&dateb=&owner=include&start=0&count=100&output=atom")
-    feed.entries.each do |entry|
-
-    #@filing = Filing.new
-
-    @filing = Filing.find_or_create_by(file_id: entry.entry_id )
-    @filing.title      = entry.title.sub( entry.categories.join(" ") + " - ", '')
-    @filing.url        = entry.url 
-    @filing.links      = entry.links.join(" ")
-    @filing.summary    = entry.summary 
-    @filing.updated    = entry.updated 
-    @filing.categories = entry.categories.join(" ")
-    @filing.file_id    = entry.entry_id 
-    @filing.save
-
-    end
-  end
+  
 
   private
     # Use callbacks to share common setup or constraints between actions.
