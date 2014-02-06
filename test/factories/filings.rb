@@ -10,6 +10,7 @@
 #  updated    :date
 #  categories :string(255)
 #  file_id    :string(255)
+#  cik        :string(255)
 #
 
 # Read about factories at https://github.com/thoughtbot/factory_girl

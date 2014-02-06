@@ -1,4 +1,8 @@
+<div class="row">
 <h1>Listing filings</h1>
+<script>
+//setTimeout('window.location.reload();', 30000);
+</script>
 
 <table>
   <thead>
@@ -6,10 +10,11 @@
       <th>Title</th>
       <th>Url</th>
       <th>Links</th>
-      <th>Summary</th>
+      <!--<th>Summary</th>-->
       <th>Updated</th>
-      <th>Categories</th>
-      <th>Id</th>
+      <th>Form</th>
+      <th>Filing Id</th>
+      <th>ID</th>
       <th></th>
       <th></th>
       <th></th>
@@ -17,24 +22,24 @@
   </thead>
 
   <tbody>
-    <% @filings.each do |filing| %>
+    <% @filings.reverse.each do |filing| %>
       <tr>
         <td><%= filing.title %></td>
-        <td><%= link_to filing.url, filing.url %></td>
-        <td><%= filing.links %></td>
-        <td><%= filing.summary %></td>
+        <td><%= link_to "Filing", filing.url, :class =>'button' %></td>
+        <!--<td><%#= filing.links %></td>-->
+        <td><%= filing.summary.html_safe %></td>
         <td><%= filing.updated %></td>
         <td><%= filing.categories %></td>
-        <td><%= filing.file_id  %></td>
+        <td><%= filing.file_id.sub("urn:tag:sec.gov,2008:accession-number=", "")  %></td>
         <td><%= filing.id %></td>
-        <td><%= link_to 'Show', filing %></td>
-        <td><%= link_to 'Edit', edit_filing_path(filing) %></td>
-        <td><%= link_to 'Destroy', filing, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Show', filing, :class =>'button'  %></td>
+        <td><%= link_to 'Edit', edit_filing_path(filing), :class =>'button success'  %></td>
+        <td><%= link_to 'Destroy', filing, method: :delete, data: { confirm: 'Are you sure?' }, :class =>'button alert'  %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
+</div>
 <br>
 
 <%= link_to 'New Filing', new_filing_path %>

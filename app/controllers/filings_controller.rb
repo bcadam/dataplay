@@ -8,6 +8,42 @@ class FilingsController < ApplicationController
     @filings = Filing.all
   end
 
+  def backlog
+
+    require 'feedzirra'
+    require 'rubygems'
+    require 'sanitize'
+
+    start = 0
+
+  while start < 2000  do
+
+    feed = Feedzirra::Feed.fetch_and_parse("http://www.sec.gov/cgi-bin/browse-edgar?action=getcurrent&type=&company=&dateb=&owner=include&start=#{start}&count=100&output=atom")
+    feed.entries.each do |entry|
+
+    #@filing = Filing.new
+
+    @filing = Filing.find_or_create_by(file_id: entry.entry_id )
+    @filing.title      = entry.title.sub( entry.categories.join(" ") + " - ", '')
+    @filing.url        = entry.url 
+    @filing.links      = entry.links.join(" ")
+    @filing.summary    = entry.summary 
+    @filing.updated    = entry.updated 
+    @filing.categories = entry.categories.join(" ")
+    @filing.file_id    = entry.entry_id 
+    @filing.save
+
+    end
+
+    start = start + 100
+
+  end
+  
+  @filings = Filing.all
+  render template: "filings/index"
+
+  end
+
   def importer
     @filings = Filing.all
     #render template: "filings/importer"
@@ -76,8 +112,9 @@ class FilingsController < ApplicationController
     feed.entries.each do |entry|
 
     #@filing = Filing.new
+
     @filing = Filing.find_or_create_by(file_id: entry.entry_id )
-    @filing.title      = entry.title
+    @filing.title      = entry.title.sub( entry.categories.join(" ") + " - ", '')
     @filing.url        = entry.url 
     @filing.links      = entry.links.join(" ")
     @filing.summary    = entry.summary 

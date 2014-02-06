@@ -11,7 +11,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140205054804) do
+ActiveRecord::Schema.define(version: 20140205210057) do
+
+  create_table "filings", force: true do |t|
+    t.string "title"
+    t.string "url"
+    t.string "links"
+    t.string "summary"
+    t.date   "updated"
+    t.string "categories"
+    t.string "file_id"
+    t.string "cik"
+  end
 
   create_table "users", force: true do |t|
     t.string   "name"
@@ -20,16 +31,6 @@ ActiveRecord::Schema.define(version: 20140205054804) do
     t.string   "uid"
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "filings", force: true do |t|
-  	t.string "title"
-  	t.string "url"
-  	t.string "links"
-  	t.string "summary"
-  	t.date "updated"
-  	t.string "categories"
-  	t.string "file_id"
   end
 
 end

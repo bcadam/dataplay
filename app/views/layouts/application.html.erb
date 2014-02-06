@@ -8,16 +8,24 @@
     <%# Foundation 5 won't work with Rails Turbolinks %>
     <%# Modernizr is required for Zurb Foundation %>
     <%= javascript_include_tag "vendor/modernizr" %>
+    <%= javascript_include_tag "http://cdnjs.cloudflare.com/ajax/libs/Chart.js/0.2.0/Chart.js" %>
     <%= csrf_meta_tags %>
   </head>
   <body>
     <header>
       <%= render 'layouts/navigation' %>
+      <%= render 'layouts/messages' %>
     </header>
-    <main role="main">
-       <%= render 'layouts/messages' %>
-       <%= yield %>
-    </main>
+      
+    <div class="row">
+    <div class="large-12">
+
+    
+    <%= yield %>
+
+    </div>
+    </div>
+
     <%# Foundation 5 won't work when application.js is included in HEAD %>
     <%= javascript_include_tag "application" %>
   </body>

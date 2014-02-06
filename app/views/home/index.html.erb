@@ -1,49 +1,50 @@
-
+<div class="row columns">
 <h3>Home</h3>
-<div class="row">
-<%
 
-require 'feedzirra'
-require 'rubygems'
-require 'sanitize'
+<canvas class="panel" id="results" width="500px" height="400px"></canvas>
 
+</div>
+<%#= @filings.count('categories', :distinct => true) %>
 
-# fetching a single feed
-feed = Feedzirra::Feed.fetch_and_parse("http://www.sec.gov/cgi-bin/browse-edgar?action=getcurrent&type=&company=&dateb=&owner=include&start=0&count=100&output=atom")
+<script>
+var buyerData = {
+	labels : ["Form 3","Form 4","Form SC 13G","Form D"/**,"May","June","July"**/],
+	datasets : [
+		{
+			fillColor : "rgb(0,128,128)",
+			strokeColor : "rgba(210,220,220,1)",
+			data : [<%= @filings.where(categories: '3').count %>,<%= @filings.where(categories: '4').count %>,<%= @filings.where(categories: 'SC 13G').count %>,<%= @filings.where(categories: 'D').count %>/**,90,81,56,55,40**/]
+		}/**,
+		{
+			fillColor : "rgba(151,187,205,0.5)",
+			strokeColor : "rgba(151,187,205,1)",
+			data : [28,48,40,19,96,27,100]
+		}**/
+	]
+};
 
-# feed and entries accessors
-#feed.title          # => "Paul Dix Explains Nothing"
-#feed.url            # => "http://www.pauldix.net"
-#feed.feed_url       # => "http://feeds.feedburner.com/PaulDixExplainsNothing"
-#feed.etag           # => "GunxqnEP4NeYhrqq9TyVKTuDnh0"
-#feed.last_modified  # => Sat Jan 31 17:58:16 -0500 2009 # it's a Time object
+var pieOptions = {
+    segmentShowStroke : true,
+    segmentStrokeColor : "#fff",
+    segmentStrokeWidth : 2,
+    percentageInnerCutout : 50,
+    animation : true,
+    animationSteps : 100,
+    animationEasing : "easeOutBounce",
+    animateRotate : true,
+    animateScale : false,
+    onAnimationComplete : "revealInfo()",
+    labelFontFamily : "Arial",
+    labelFontStyle : "normal",
+    labelFontSize : 24,
+    labelFontColor : "#666"
+}
 
-%>
-<%
- 	entry = feed.entries.first 
-	entry.title 	
-	entry.summary.sanitize 	
-	entry.categories
-	entry.entry_id
-%>
+function revealInfo()
+{
+    alert("Hello World!");
+}
 
-<%=
-
-feed.entries.each do |entry|
-	@filing = Filing.new
-
-	@filing.title      = entry.title
-	@filing.url        = entry.url 
-	@filing.links      = entry.links 
-	@filing.summary    = entry.summary 
-	@filing.updated    = entry.updated 
-	@filing.categories = entry.categories 
-	@filing.file_id    = entry.entry_id 
-
-	@filing.save
-
-	
-end
-
-
-%>
+var results = document.getElementById('results').getContext('2d');
+new Chart(results).Bar(buyerData,pieOptions);
+</script>
