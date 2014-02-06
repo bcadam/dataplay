@@ -6,6 +6,7 @@ class FilingsController < ApplicationController
   def index
     import
     @filings = Filing.all
+    @companies = Company.all
   end
 
   def import
@@ -27,6 +28,11 @@ class FilingsController < ApplicationController
     @filing.categories = entry.categories.join(" ")
     @filing.file_id    = entry.entry_id
     @filing.cik        = entry.title.match('\d{10}').to_s
+          @company = Company.find_or_create_by(cik: @filing.cik )
+          @company.cik = @filing.cik 
+          @company.name = @filing.title 
+          @company.save
+
     @filing.save
 
     end
@@ -42,7 +48,7 @@ class FilingsController < ApplicationController
 
   while start < 2000  do
 
-    feed = Feedzirra::Feed.fetch_and_parse("http://www.sec.gov/cgi-bin/browse-edgar?action=getcurrent&type=&company=&dateb=&owner=include&start=#{start}&count=100&output=atom")
+    feed = Feedzirra::Feed.fetch_and_parse("http://www.sec.gov/cgi-bin/browse-edgar?action=getcurrent&type=&company=&dateb=&owner=include&start=#{start}&count=200&output=atom")
     feed.entries.each do |entry|
 
     #@filing = Filing.new
@@ -54,7 +60,13 @@ class FilingsController < ApplicationController
     @filing.summary    = entry.summary 
     @filing.updated    = entry.updated 
     @filing.categories = entry.categories.join(" ")
-    @filing.file_id    = entry.entry_id 
+    @filing.file_id    = entry.entry_id
+    @filing.cik        = entry.title.match('\d{10}').to_s
+          @company = Company.find_or_create_by(cik: @filing.cik )
+          @company.cik = @filing.cik 
+          @company.name = @filing.title 
+          @company.save
+
     @filing.save
 
     end

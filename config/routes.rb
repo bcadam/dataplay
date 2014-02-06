@@ -1,4 +1,6 @@
 Dataplay::Application.routes.draw do
+  resources :companies
+
   resources :filings
 
   root :to => "home#index"
