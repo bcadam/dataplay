@@ -12,24 +12,24 @@ setTimeout('window.location.reload();', 60000);
 <h1>Latest 100 filings</h1>
 
 
-<table>
-  <thead>
+<table class='large-12 medium-12 small-12'>
+  <thead class='large-12 medium-12 small-12'>
     <tr>
-      <th>Title</th>
+      <th>Company</th>
       <th>Updated</th>
       <th>Form</th>
       <th>Filing Id</th>
       <th>ID</th>
       <th>Link</th>
-      <th></th>
-      <th></th>
+      <!-- <th></th>
+      <th></th> -->
     </tr>
   </thead>
 
   <tbody>
     <% @filings.reverse.take(100).each do |filing| %>
       <tr>
-        <td><%= filing.title.sub('(' + filing.cik + ')' , '') %></td>
+        <td><%= link_to filing.title.sub('(' + filing.cik + ')' , ''), Company.where("cik = ?", @filing.cik).first %></td>
         <!--<td><%#= filing.links %></td>-->
         <td><%= filing.updated %></td>
         <td><%= filing.categories %></td>
@@ -37,9 +37,9 @@ setTimeout('window.location.reload();', 60000);
         <td><%= filing.id %></td>
         <td><%= link_to "Filing", filing.url.gsub("-index.htm", ".txt"), :class => "button", :target => "_blank" %></td>
 <!--<td><%#= link_to 'Show', filing, :class =>'button'  %></td>-->
-        <td><%= link_to 'Edit', edit_filing_path(filing), :class =>'button success'  %></td>
-        <td><%= link_to 'Destroy', filing, method: :delete, data: { confirm: 'Are you sure?' }, :class =>'button alert'  %>
-        </td>
+        <!-- <td><%#= link_to 'Edit', edit_filing_path(filing), :class =>'button success'  %></td>
+        <td><%#= link_to 'Destroy', filing, method: :delete, data: { confirm: 'Are you sure?' }, :class =>'button alert'  %>
+        </td> -->
       </tr>
       <tr id="<%=filing.id %>" height="0px;"></tr>
     <% end %>

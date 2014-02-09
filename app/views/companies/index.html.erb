@@ -3,7 +3,7 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th>Cik</th>
+      <!-- <th>Cik</th> -->
       <th>Industry</th>
       <th>ID</th>
       <th></th>
@@ -16,8 +16,8 @@
     <% @companies.reverse.take(100).each do |company| %>
       <tr>
         <td><%= company.name.sub('(' + company.cik + ')' , '') %></td>
-        <td><%= company.cik %></td>
-        <td><%= company.industry %></td>
+<!--         <td><%#= company.cik %></td>
+ -->        <td><%= company.industry %></td>
         <td><%= company.id %></td>
         <td><%= link_to 'Show', company %></td>
         <td><%= link_to 'Edit', edit_company_path(company) %></td>
