@@ -10,8 +10,7 @@
 
 class Company < ActiveRecord::Base
 
-	has_many :filings, class_name: "filing",
-                          foreign_key: "cik"
+	has_many :filings, class_name: "Filing", foreign_key: "cik"
 
                           
 end

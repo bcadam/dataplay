@@ -13,18 +13,17 @@
     <%= csrf_meta_tags %>
   </head>
   <body>
+    <div class="row large-12">
     <header>
       <%= render 'layouts/navigation' %>
       <%= render 'layouts/messages' %>
     </header>
+    </div>
       
-    <div class="row">
-    <div class="large-12">
-
+    <div class="row large-12 medium-12 small-12">
     
     <%= yield %>
 
-    </div>
     </div>
 
     <%# Foundation 5 won't work when application.js is included in HEAD %>

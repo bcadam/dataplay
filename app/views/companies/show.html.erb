@@ -15,6 +15,41 @@
   <%= @company.industry %>
 </p>
 
+<p>
+<%#= debug(@filings) %>
+</p>
+<div class="large-12 columns">
+ 	
+      
+      <!-- Feed Entry -->
+  <table class="large-12 columns">
+  <thead>
+    <tr>
+      <th>Updated</th>
+      <th>Form</th>
+      <th>Filing Id</th>
+      <th>ID</th>
+      <th>Link</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @filings.reverse.take(100).each do |filing| %>
+      <tr>
+        <!--<td><%#= filing.links %></td>-->
+        <td><%= filing.updated %></td>
+        <td><%= filing.categories %></td>
+        <td><%= link_to filing.file_id.sub("urn:tag:sec.gov,2008:accession-number=", ""), filing  %></td>
+        <td><%= filing.id %></td>
+        <td><%= link_to "Filing", filing.url.gsub("-index.htm", ".txt"), :class => "button", :target => "_blank" %></td>
+<!--<td><%#= link_to 'Show', filing, :class =>'button'  %></td>-->
+      </tr>
+      <tr id="<%=filing.id %>" height="0px;"></tr>
+    <% end %>
+  </tbody>
+</table>
+
+</div>
 
 <%= link_to 'Edit', edit_company_path(@company) %> |
 <%= link_to 'Back', companies_path %>

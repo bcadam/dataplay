@@ -9,6 +9,17 @@ class FilingsController < ApplicationController
     @companies = Company.all
   end
 
+  def processor
+    @filings = Filing.all
+
+    @filings.each do |entry|
+      entry.name = entry.name.sub( '(' + entry.cik + ')', '')
+    end
+
+    render template: "filings/index"
+
+  end
+
   def import
     require 'feedzirra'
     require 'rubygems'
@@ -20,17 +31,18 @@ class FilingsController < ApplicationController
     #@filing = Filing.new
 
     @filing = Filing.find_or_create_by(file_id: entry.entry_id )
-    @filing.title      = entry.title.sub( entry.categories.join(" ") + " - ", '')
+    @filing.cik        = entry.title.match('\d{10}').to_s
+    @filing.title      = entry.title.sub( entry.categories.join(" ") + " - ", '').sub('(' + @filing.cik + ')' , '')
     @filing.url        = entry.url 
     @filing.links      = entry.links.join(" ")
     @filing.summary    = entry.summary 
     @filing.updated    = entry.updated 
     @filing.categories = entry.categories.join(" ")
     @filing.file_id    = entry.entry_id
-    @filing.cik        = entry.title.match('\d{10}').to_s
+    
           @company = Company.find_or_create_by(cik: @filing.cik )
           @company.cik = @filing.cik 
-          @company.name = @filing.title 
+          @company.name = @filing.title.sub( '(' + @filing.cik + ')', '') 
           @company.save
 
     @filing.save
@@ -46,7 +58,7 @@ class FilingsController < ApplicationController
 
     start = 0
 
-  while start < 2000  do
+  while start < 4000  do
 
     feed = Feedzirra::Feed.fetch_and_parse("http://www.sec.gov/cgi-bin/browse-edgar?action=getcurrent&type=&company=&dateb=&owner=include&start=#{start}&count=200&output=atom")
     feed.entries.each do |entry|
@@ -81,13 +93,14 @@ class FilingsController < ApplicationController
   end
 
   def importer
-    @filings = Filing.all
+    #@filings = Filing.all
     #render template: "filings/importer"
   end
 
   # GET /filings/1
   # GET /filings/1.json
   def show
+    @company = Company.find_by("cik = ?", @filing.cik)
   end
 
   # GET /filings/new
@@ -138,8 +151,7 @@ class FilingsController < ApplicationController
       format.json { head :no_content }
     end
   end
-
-  
+ 
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -151,4 +163,6 @@ class FilingsController < ApplicationController
     def filing_params
       params.require(:filing).permit(:title, :url, :links, :summary, :updated, :categories, :id)
     end
+
+
 end

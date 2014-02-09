@@ -1,12 +1,11 @@
 
-
       <!-- Header Content -->
  
         <div class="row">
  
           <div class="large-6 columns">
  
-            <%= @most_common_filings_graph %><br>
+            <img src='http://placekitten.com/g/600/500'><br>
  
           </div>
  
@@ -77,23 +76,16 @@
       <!-- Thumbnails -->
  
         <div class="row">
-          	<div class="large-12 show-for-small columns">
-          	<h3>Header</h3><hr>
+ 
+          <div class="large-12 show-for-small columns">
+          <h3>Header</h3><hr>
         </div>
  
           <div class="large-3 small-6 columns">
-			<div class="panel">
-              <p><b>Recent Filings</b></p>
-            </div>
+            <img src="http://placehold.it/500x500&text=Thumbnail">
             <div class="panel">
-            <%#= @filings.first.title %>
-			<%= link_to clean_title(@filings.reverse.first), @filings.reverse.first, :class => 'button success', :style => 'width:100%;' %>
-          	<%= link_to clean_title(@filings.reverse.second), @filings.reverse.second, :class => 'button success', :style => 'width:100%;' %>
-          	<%= link_to clean_title(@filings.reverse.third), @filings.reverse.third, :class => 'button success', :style => 'width:100%;' %>
-          	<%= link_to clean_title(@filings.reverse.fourth), @filings.reverse.fourth, :class => 'button success', :style => 'width:100%;' %>
-          	<%= link_to clean_title(@filings.reverse.fifth), @filings.reverse.fifth, :class => 'button success', :style => 'width:100%;' %>  
-          	</div>        
-          	
+              <p>Description</p>
+            </div>
           </div>
  
           <div class="large-3 small-6 columns">

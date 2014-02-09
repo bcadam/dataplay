@@ -1,23 +1,12 @@
 <p id="notice"><%= notice %></p>
 
 <p>
+  <!-- <strong>Url:</strong> -->
+  <%= link_to 'File Page', @filing.url, :class => 'button success right' %>
+</p>
+<p>
   <strong>Title:</strong>
   <%= @filing.title %>
-</p>
-
-<p>
-  <strong>Url:</strong>
-  <%= @filing.url %>
-</p>
-
-<p>
-  <strong>Links:</strong>
-  <%= @filing.links %>
-</p>
-
-<p>
-  <strong>Summary:</strong>
-  <%= @filing.summary %>
 </p>
 
 <p>
@@ -26,13 +15,18 @@
 </p>
 
 <p>
-  <strong>Categories:</strong>
+  <strong>Form:</strong>
   <%= @filing.categories %>
 </p>
 
-<p>
+<!--<p>
   <strong>Id:</strong>
-  <%= @filing.id %>
+  <%#= @filing.id %>
+</p>-->
+
+<p>
+  <strong>Company Link:</strong>
+  <%= link_to @company.name, @company %>
 </p>
 
 <%= link_to 'Edit', edit_filing_path(@filing) %> |

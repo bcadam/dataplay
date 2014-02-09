@@ -1,3 +1,4 @@
+<br />
 <script>
 setTimeout('window.location.reload();', 60000);
 
@@ -5,19 +6,19 @@ setTimeout('window.location.reload();', 60000);
 
 </script>
 
-<div class="row">
-<h1>Listing filings</h1>
+<%#= '<h1>Most common filings</h1><br />'.html_safe %>
+<%#= graph( get_common_elements(@filings, "categories") , "filingcanvas" , 500 , 400 ) %>
+
+<h1>Latest 100 filings</h1>
 
 
 <table>
   <thead>
     <tr>
       <th>Title</th>
-      <th>Summary</th>
       <th>Updated</th>
       <th>Form</th>
       <th>Filing Id</th>
-      <th>CIK</th>
       <th>ID</th>
       <th>Link</th>
       <th></th>
@@ -26,15 +27,13 @@ setTimeout('window.location.reload();', 60000);
   </thead>
 
   <tbody>
-    <% @filings.reverse.each do |filing| %>
+    <% @filings.reverse.take(100).each do |filing| %>
       <tr>
-        <td><%= filing.title %></td>
+        <td><%= filing.title.sub('(' + filing.cik + ')' , '') %></td>
         <!--<td><%#= filing.links %></td>-->
-        <td><%= filing.summary.html_safe %></td>
         <td><%= filing.updated %></td>
         <td><%= filing.categories %></td>
-        <td><%= filing.file_id.sub("urn:tag:sec.gov,2008:accession-number=", "")  %></td>
-        <td><%= filing.cik %></td>
+        <td><%= link_to filing.file_id.sub("urn:tag:sec.gov,2008:accession-number=", ""), filing, :class => 'button success'  %></td>
         <td><%= filing.id %></td>
         <td><%= link_to "Filing", filing.url.gsub("-index.htm", ".txt"), :class => "button", :target => "_blank" %></td>
 <!--<td><%#= link_to 'Show', filing, :class =>'button'  %></td>-->
@@ -46,7 +45,6 @@ setTimeout('window.location.reload();', 60000);
     <% end %>
   </tbody>
 </table>
-</div>
 <br>
 
 
