@@ -28,7 +28,7 @@ setTimeout('window.location.reload();', 60000);
   <tbody>
     <% @filings.reverse.take(100).each do |filing| %>
       <tr>
-        <td><%= link_to filing.title.sub('(' + filing.cik + ')' , '') , Company.where("cik = ?", @filing.cik).first %></td>
+        <td><%= link_to filing.title.sub('(' + filing.cik + ')' , '').titleize , Company.where("cik = ?", @filing.cik).first %></td>
         <!--<td><%#= filing.links %></td>-->
         <td><%= filing.updated %></td>
         <td><%= filing.categories %></td>

@@ -37,7 +37,7 @@ class FilingsController < ApplicationController
     @filing.links      = entry.links.join(" ")
     @filing.summary    = entry.summary 
     @filing.updated    = entry.updated 
-    @filing.categories = entry.categories.join(" ")
+    @filing.categories = entry.categories.join(" ").strip
     @filing.file_id    = entry.entry_id
     
           @company = Company.find_or_create_by(cik: @filing.cik )
@@ -71,7 +71,7 @@ class FilingsController < ApplicationController
     @filing.links      = entry.links.join(" ")
     @filing.summary    = entry.summary 
     @filing.updated    = entry.updated 
-    @filing.categories = entry.categories.join(" ")
+    @filing.categories = entry.categories.join(" ").strip
     @filing.file_id    = entry.entry_id
     @filing.cik        = entry.title.match('\d{10}').to_s
           @company = Company.find_or_create_by(cik: @filing.cik )

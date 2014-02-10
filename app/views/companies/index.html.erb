@@ -15,7 +15,7 @@
   <tbody>
     <% @companies.reverse.take(100).each do |company| %>
       <tr>
-        <td><%= company.name.sub('(' + company.cik + ')' , '') %></td>
+        <td><%= company.name.sub('(' + company.cik + ')' , '').titleize %></td>
 <!--         <td><%#= company.cik %></td>
  -->        <td><%= company.industry %></td>
         <td><%= company.id %></td>
