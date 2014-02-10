@@ -1,8 +1,10 @@
+<div class='clearfix'>
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Name:</strong>
-  <%= @company.name %>
+  <strong>
+  <%= clean_name(@company) %>
+  </strong>
 </p>
 
 <p>
@@ -14,10 +16,12 @@
   <strong>Industry:</strong>
   <%= @company.industry %>
 </p>
-
+<%#= debug @filings.count %>
+<% if @filings.count != 0 %>
 <p>
 <%#= debug(@filings) %>
 </p>
+
 <div class="large-12 columns">
  	
       
@@ -50,6 +54,7 @@
 </table>
 
 </div>
-
+<% end %>
 <%= link_to 'Edit', edit_company_path(@company) %> |
 <%= link_to 'Back', companies_path %>
+</div>

@@ -3,18 +3,42 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user, :user_signed_in?, :correct_user?
 
-  helper_method :clean_title, :clean_string
+  helper_method :clean_title, :clean_string, :clean_name, :clean_name_string
 
   def clean_title (filings)
     cleaned_name = filings.title.sub('(Issuer)' , '')
     cleaned_name = cleaned_name.sub('(Reporting)' , '')
-    cleaned_name = cleaned_name.sub('(Reporting)' , '')
+    cleaned_name = cleaned_name.sub('(Filer)' , '')
+    cleaned_name = cleaned_name.sub('(Filed by)' , '')
     cleaned_name = cleaned_name.sub('(' + filings.cik + ')' , '')
 
 
     return cleaned_name
 
   end
+
+  def clean_name (filings)
+    cleaned_name = filings.name.sub('(Issuer)' , '')
+    cleaned_name = cleaned_name.sub('(Reporting)' , '')
+    cleaned_name = cleaned_name.sub('(Filer)' , '')
+    cleaned_name = cleaned_name.sub('(Filed by)' , '')
+    cleaned_name = cleaned_name.sub('(' + filings.cik + ')' , '')
+
+
+    return cleaned_name
+
+  end
+
+  def clean_name_string (filings)
+    cleaned_name = filings.sub('(Issuer)' , '')
+    cleaned_name = cleaned_name.sub('(Reporting)' , '')
+    cleaned_name = cleaned_name.sub('(Filer)' , '')
+    cleaned_name = cleaned_name.sub('(Filed by)' , '')
+
+    return cleaned_name
+
+  end
+
 
   def get_common_elements (passed_array, needle)
     temparray = passed_array.pluck('DISTINCT ' + needle)

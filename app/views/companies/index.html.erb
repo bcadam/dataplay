@@ -1,12 +1,12 @@
-<h1>Listing companies</h1>
-<table>
+<h1>Latest 100 Companies</h1>
+<table class='large-12 medium-12 small-12'>
   <thead>
     <tr>
       <th>Name</th>
       <!-- <th>Cik</th> -->
       <th>Industry</th>
       <th>ID</th>
-      <th></th>
+      <th>Filings</th>
       <th></th>
       <th></th>
     </tr>
@@ -19,9 +19,10 @@
 <!--         <td><%#= company.cik %></td>
  -->        <td><%= company.industry %></td>
         <td><%= company.id %></td>
+        <td class='right'><%= Filing.where("cik = ?", company.cik).count %>
         <td><%= link_to 'Show', company %></td>
         <td><%= link_to 'Edit', edit_company_path(company) %></td>
-        <td><%= link_to 'Destroy', company, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <!-- <td><%#= link_to 'Destroy', company, method: :delete, data: { confirm: 'Are you sure?' } %></td> -->
       </tr>
     <% end %>
   </tbody>

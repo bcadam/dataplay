@@ -32,7 +32,7 @@ class FilingsController < ApplicationController
 
     @filing = Filing.find_or_create_by(file_id: entry.entry_id )
     @filing.cik        = entry.title.match('\d{10}').to_s
-    @filing.title      = entry.title.sub( entry.categories.join(" ") + " - ", '').sub('(' + @filing.cik + ')' , '')
+    @filing.title      = entry.title.sub( entry.categories.join(" ") + " - ", '').sub('(' + @filing.cik + ')' , '').sub('(Issuer)' , '').sub('(Reporting)' , '').sub('(Filer)' , '').sub('(Filed by)' , '').sub('(Subject)' , '').strip
     @filing.url        = entry.url 
     @filing.links      = entry.links.join(" ")
     @filing.summary    = entry.summary 
@@ -42,7 +42,7 @@ class FilingsController < ApplicationController
     
           @company = Company.find_or_create_by(cik: @filing.cik )
           @company.cik = @filing.cik 
-          @company.name = @filing.title.sub( '(' + @filing.cik + ')', '') 
+          @company.name = @filing.title.sub( '(' + @filing.cik + ')', '').sub('(' + @filing.cik + ')' , '').sub('(Issuer)' , '').sub('(Reporting)' , '').sub('(Filer)' , '').sub('(Filed by)' , '').sub('(Subject)' , '').strip
           @company.save
 
     @filing.save
@@ -66,7 +66,7 @@ class FilingsController < ApplicationController
     #@filing = Filing.new
 
     @filing = Filing.find_or_create_by(file_id: entry.entry_id )
-    @filing.title      = entry.title.sub( entry.categories.join(" ") + " - ", '')
+    @filing.title      = entry.title.sub( entry.categories.join(" ") + " - ", '').sub('(Issuer)' , '').sub('(Reporting)' , '').sub('(Filer)' , '').sub('(Filed by)' , '').sub('(Subject)' , '').strip
     @filing.url        = entry.url 
     @filing.links      = entry.links.join(" ")
     @filing.summary    = entry.summary 
@@ -76,7 +76,7 @@ class FilingsController < ApplicationController
     @filing.cik        = entry.title.match('\d{10}').to_s
           @company = Company.find_or_create_by(cik: @filing.cik )
           @company.cik = @filing.cik 
-          @company.name = @filing.title 
+          @company.name = @filing.title.sub('(Issuer)' , '').sub('(Reporting)' , '').sub('(Filer)' , '').sub('(Filed by)' , '').sub('(Subject)' , '').strip
           @company.save
 
     @filing.save

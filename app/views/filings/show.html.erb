@@ -1,8 +1,17 @@
+<%
+
+url_target = @filing.url.sub('-index.htm','.txt')
+require 'net/http'
+
+image = Net::HTTP.get_response(URI.parse(url_target))
+
+%>
+<% image.body %>
 <p id="notice"><%= notice %></p>
 
 <p>
   <!-- <strong>Url:</strong> -->
-  <%= link_to 'File Page', @filing.url, :class => 'button success right' %>
+  <%= link_to 'SEC Page', @filing.url, :class => 'button success right' %>
 </p>
 <p>
   <strong>Title:</strong>
@@ -28,6 +37,9 @@
   <strong>Company Link:</strong>
   <%= link_to @company.name, @company %>
 </p>
+
+
+<br />
 
 <%= link_to 'Edit', edit_filing_path(@filing) %> |
 <%= link_to 'Back', filings_path %>

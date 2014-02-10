@@ -18,7 +18,8 @@ Dataplay::Application.routes.draw do
   get '/auth/failure' => 'sessions#failure'
 
 
-
   get '/api' => 'api#index'
+  get '/api/company' => 'api#company'
+  get '/api/filing' => 'api#filing'
   
 end
