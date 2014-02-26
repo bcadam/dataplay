@@ -28,12 +28,13 @@ setTimeout('window.location.reload();', 60000);
   <tbody>
     <% @filings.reverse.take(100).each do |filing| %>
       <tr>
-        <td><%= link_to filing.title.sub('(' + filing.cik + ')' , '').titleize , Company.where("cik = ?", @filing.cik).first %></td>
+        <td><%= link_to filing.title.sub('(' + filing.cik + ')' , '').titleize , Company.where("cik = ?", filing.cik).first %></td>
         <!--<td><%#= filing.links %></td>-->
         <td><%= filing.updated %></td>
         <td><%= filing.categories %></td>
         <td><%= link_to filing.file_id.sub("urn:tag:sec.gov,2008:accession-number=", ""), filing, :class => 'button success'  %></td>
         <td><%= filing.id %></td>
+        <!--<td><%#= filing.cik %></td>-->
         <td><%= link_to "Filing", filing.url.gsub("-index.htm", ".txt"), :class => "button", :target => "_blank" %></td>
         <!--<td><%#= link_to 'Show', filing, :class =>'button'  %></td>-->
         <!-- <td><%#= link_to 'Edit', edit_filing_path(filing), :class =>'button success'  %></td>

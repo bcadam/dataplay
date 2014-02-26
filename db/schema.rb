@@ -11,23 +11,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140206040109) do
+ActiveRecord::Schema.define(version: 20140214201911) do
 
   create_table "companies", force: true do |t|
-    t.string "name"
-    t.string "cik"
-    t.string "industry"
+    t.string  "name"
+    t.string  "cik"
+    t.string  "industry"
+    t.integer "filing_id"
   end
 
   create_table "filings", force: true do |t|
-    t.string "title"
-    t.string "url"
-    t.string "links"
-    t.string "summary"
-    t.date   "updated"
-    t.string "categories"
-    t.string "file_id"
-    t.string "cik"
+    t.integer "company_id"
+    t.string  "title"
+    t.string  "url"
+    t.string  "links"
+    t.string  "summary"
+    t.date    "updated"
+    t.string  "categories"
+    t.string  "file_id"
+    t.string  "cik"
+    t.text    "filingtext"
+    t.string  "stockticker"
+    t.text    "footnote"
+    t.date    "periodofreport"
   end
 
   create_table "users", force: true do |t|

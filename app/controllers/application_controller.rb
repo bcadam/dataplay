@@ -39,7 +39,7 @@ class ApplicationController < ActionController::Base
 
   end
 
-
+  # accepts an array of a model and returns an array with the first four most common values of the needle
   def get_common_elements (passed_array, needle)
     temparray = passed_array.pluck('DISTINCT ' + needle)
     count_array = Array.new()
@@ -64,9 +64,9 @@ class ApplicationController < ActionController::Base
 
   end
 
+  #accepts an multi-dimensional array that is FOUR by TWO long. And graphs the output as a bar chart
+  #must pass width and height
   def graph(unit, id, pass_width, pass_height)
-
-    #unit.categories
 
 
     return "<canvas class='panel' id='#{id}' width='#{pass_width}' height='#{pass_height}'></canvas>
