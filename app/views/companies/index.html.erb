@@ -15,11 +15,11 @@
   <tbody>
     <% @companies.reverse.take(100).each do |company| %>
       <tr>
-        <td><%= company.name.sub('(' + company.cik + ')' , '').titleize %></td>
+        <td><%= link_to company.name, company %></td>
 <!--         <td><%#= company.cik %></td>
  -->        <td><%= company.industry %></td>
         <td><%= company.id %></td>
-        <td class='right'><%= Filing.where("cik = ?", company.cik).count %>
+        <td class='right'><%= company.filings.size %>
         <td><%= link_to 'Show', company %></td>
         <td><%= link_to 'Edit', edit_company_path(company) %></td>
         <!-- <td><%#= link_to 'Destroy', company, method: :delete, data: { confirm: 'Are you sure?' } %></td> -->

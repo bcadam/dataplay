@@ -9,7 +9,7 @@ Dataplay::Application.routes.draw do
   get '/importer' => "filings#importer"
   get '/backlog' => 'filings#backlog'
 
-  get '/processor' => 'filings#processor'
+  #get '/processor' => 'filings#processor'
 
 
   get '/auth/:provider/callback' => 'sessions#create'
