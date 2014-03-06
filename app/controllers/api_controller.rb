@@ -11,7 +11,11 @@ def index
 end
 
 def company
-	@companies = Company.pluck(:name)
+	if params[:cikhold] != nil
+	@companies = Company.find_by("cik = ?", params[:cikhold])
+	else
+	@companies = Company.all
+	end
 
 	render xml: @companies
 end

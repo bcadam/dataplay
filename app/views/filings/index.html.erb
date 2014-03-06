@@ -19,6 +19,7 @@ setTimeout('window.location.reload();', 60000);
       <th>Form</th>
       <th>Filing Id</th>
       <th>ID</th>
+      <th>CIK</th>
       <th>Link</th>
       <!-- <th></th>
       <th></th> -->
@@ -32,9 +33,9 @@ setTimeout('window.location.reload();', 60000);
         <!--<td><%#= filing.links %></td>-->
         <td><%= filing.updated %></td>
         <td><%= filing.categories %></td>
-        <td><%= link_to filing.file_id.sub("urn:tag:sec.gov,2008:accession-number=", ""), filing, :class => 'button success'  %></td>
+        <td><%= link_to filing.file_serial , filing, :class => 'button success'  %></td>
         <td><%= filing.id %></td>
-        <!--<td><%#= filing.cik %></td>-->
+        <td><%= filing.cik %></td>
         <td><%= link_to "Filing", filing.url.gsub("-index.htm", ".txt"), :class => "button", :target => "_blank" %></td>
         <!--<td><%#= link_to 'Show', filing, :class =>'button'  %></td>-->
         <!-- <td><%#= link_to 'Edit', edit_filing_path(filing), :class =>'button success'  %></td>

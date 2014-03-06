@@ -20,6 +20,7 @@ Dataplay::Application.routes.draw do
 
   get '/api' => 'api#index'
   get '/api/company' => 'api#company'
+  get '/api/company/cik/:cikhold' => 'api#company'
   get '/api/filing' => 'api#filing'
   
 end

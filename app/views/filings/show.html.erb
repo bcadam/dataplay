@@ -1,4 +1,4 @@
-<%
+<%#
 
 url_target = @filing.url.sub( @filing.file_id.sub("urn:tag:sec.gov,2008:accession-number=", "") + '-index.htm','edgar.xml')
 filingtext = Net::HTTP.get_response(URI.parse(url_target)).body
@@ -64,20 +64,17 @@ end
   if !textBased
   filingtext
   end %>
-<%#= if !textBased
-    stockticker 
-    end
-    %>
+
 <%#= footnote %>
 
 <div class='clearfix'>
 <p id="notice"><%= notice %></p>
   <!-- <strong>Url:</strong> -->
   <%= link_to 'SEC Page', @filing.url, :class => 'button success right' %>
-  <%= link_to 'Text Filing', url_target, :class => 'button right'  %>
+  <%= link_to 'Text Filing', @filing.url.sub( '-index.htm','.txt'), :class => 'button right'  %>
 
 <div class="left">
-<%= if !textBased
+<%#= if !textBased
     "<p><strong>Ticker: </strong>#{stockticker}</p>".html_safe
     end
     %>
@@ -85,8 +82,6 @@ end
   <strong>Title:</strong>
   <%= @filing.title %>
 </p>
-
-
 <p>
   <strong>Updated:</strong>
   <%= @filing.updated %>

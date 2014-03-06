@@ -14,7 +14,7 @@ class CompaniesController < ApplicationController
   def show
     #@companies = Company.all
     #@filings = Filing.find(cik: @companies.cik )
-    @filings = Filing.where("cik = ?", @company.cik)
+    #@filings = Filing.where("cik = ?", @company.cik)
     #@filings = Array.new
     #@filings = @company.filings
   end

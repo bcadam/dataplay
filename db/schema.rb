@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 20140214201911) do
     t.date    "updated"
     t.string  "categories"
     t.string  "file_id"
+    t.string "file_serial"
     t.string  "cik"
     t.text    "filingtext"
     t.string  "stockticker"

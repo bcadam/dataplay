@@ -11,7 +11,7 @@
 
 class Company < ActiveRecord::Base
 
-	has_many :filings, class_name: "Filing", foreign_key: "filing_id"
+	has_many :filings, class_name: "Filing", foreign_key: "file_id"
 
                           
 end
