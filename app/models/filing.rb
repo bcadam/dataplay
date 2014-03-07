@@ -11,6 +11,7 @@
 #  updated        :date
 #  categories     :string(255)
 #  file_id        :string(255)
+#  file_serial    :string(255)
 #  cik            :string(255)
 #  filingtext     :text
 #  stockticker    :string(255)

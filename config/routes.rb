@@ -1,4 +1,6 @@
 Dataplay::Application.routes.draw do
+  resources :watch_lists
+
   resources :companies
 
   resources :filings
@@ -6,7 +8,7 @@ Dataplay::Application.routes.draw do
   root :to => "home#index"
   resources :users, :only => [:index, :show, :edit, :update ]
   
-  get '/importer' => "filings#importer"
+  #get '/importer' => "filings#importer"
   get '/backlog' => 'filings#backlog'
 
   #get '/processor' => 'filings#processor'

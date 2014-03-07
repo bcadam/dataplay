@@ -1,3 +1,10 @@
 <h3>User</h3>
 <p>User: <%= @user.name %></p>
 <p>Email: <%= @user.email if @user.email %></p>
+
+
+<%= link_to "New watch", '/watch_lists/new', :class => 'button' %>
+<%#= current_user.id %>
+<%#= @temp = @user.watch_lists.new %>
+<%#= @temp.save %>
+<%= @user.watch_lists.size %>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140214201911) do
+ActiveRecord::Schema.define(version: 20140307011528) do
 
   create_table "companies", force: true do |t|
     t.string  "name"
@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(version: 20140214201911) do
     t.date    "updated"
     t.string  "categories"
     t.string  "file_id"
-    t.string "file_serial"
+    t.string  "file_serial"
     t.string  "cik"
     t.text    "filingtext"
     t.string  "stockticker"
@@ -42,6 +42,14 @@ ActiveRecord::Schema.define(version: 20140214201911) do
     t.string   "email"
     t.string   "provider"
     t.string   "uid"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "watch_lists", force: true do |t|
+    t.string   "name"
+    t.string   "companycik"
+    t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

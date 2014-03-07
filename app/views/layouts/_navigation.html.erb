@@ -7,7 +7,7 @@
           <!-- Title Area -->
           <li class="name">
             <h1>
-              <%= link_to "EmailBolt", root_path %>
+              <%= link_to "DataPlay", root_path %>
             </h1>
           </li>
           <li class="toggle-topbar menu-icon"><a href="#"><span>menu</span></a></li>
@@ -26,7 +26,7 @@
           <ul class="right">
             <% if user_signed_in? %>
               <li>
-              Logged in as <%= current_user.name %>
+              <%= link_to current_user.name, current_user %>
               </li>
               <li>
               <%= link_to 'Logout', signout_path %>

@@ -1,3 +1,8 @@
+<%#
+@products = Company.find(:all, :include => :filings).sort_by { |p| p.filings.count }
+
+%>
+<%#= link_to @products.first.name, @products.first %>
 <h1>Latest 100 Companies</h1>
 <table class='large-12 medium-12 small-12'>
   <thead>
@@ -11,7 +16,6 @@
       <th></th>
     </tr>
   </thead>
-<%#= clean_name(@companies.first) %>
   <tbody>
     <% @companies.reverse.take(100).each do |company| %>
       <tr>

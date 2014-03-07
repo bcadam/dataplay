@@ -9,17 +9,6 @@ class FilingsController < ApplicationController
     @companies = Company.all
   end
 
-  def processor
-    @filings = Filing.all
-
-    @filings.each do |entry|
-      entry.name = entry.name.sub( '(' + entry.cik + ')', '')
-    end
-
-    render template: "filings/index"
-
-  end
-
   def import
     require 'feedzirra'
     require 'rubygems'
@@ -64,26 +53,26 @@ class FilingsController < ApplicationController
 
     start = 0
 
-  while start < 10000  do
+    while start < 10000  do
 
-    feed = Feedzirra::Feed.fetch_and_parse("http://www.sec.gov/cgi-bin/browse-edgar?action=getcurrent&type=&company=&dateb=&owner=include&start=#{start}&count=200&output=atom")
-      feed.entries.each do |entry|
-        fireimport(entry)
-      end
+      feed = Feedzirra::Feed.fetch_and_parse("http://www.sec.gov/cgi-bin/browse-edgar?action=getcurrent&type=&company=&dateb=&owner=include&start=#{start}&count=200&output=atom")
+        feed.entries.each do |entry|
+          fireimport(entry)
+        end
 
-    start = start + 100
+      start = start + 100
 
-  end
+    end
   
-  @filings = Filing.all
-  render template: "filings/index"
+    @filings = Filing.all
+    render template: "filings/index"
 
   end
 
-  def importer
+  #def importer
     #@filings = Filing.all
-    #render template: "filings/importer"
-  end
+  #  #render template: "filings/importer"
+  #end
 
   # GET /filings/1
   # GET /filings/1.json
