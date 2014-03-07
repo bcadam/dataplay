@@ -1,32 +1,94 @@
-<p id="notice"><%= notice %></p>
+<%#
 
+url_target = @filing.url.sub( @filing.file_id.sub("urn:tag:sec.gov,2008:accession-number=", "") + '-index.htm','edgar.xml')
+filingtext = Net::HTTP.get_response(URI.parse(url_target)).body
+textBased = false
+
+if filingtext.include? "Oops! We can't find this file"
+url_target = @filing.url.sub( @filing.file_id.sub("urn:tag:sec.gov,2008:accession-number=", "") + '-index.htm','edgar.xml')
+filingtext = Net::HTTP.get_response(URI.parse(url_target)).body
+end
+
+
+
+if filingtext.include? "Oops! We can't find this file"
+url_target = @filing.url.sub( @filing.file_id.sub("urn:tag:sec.gov,2008:accession-number=", "") + '-index.htm','form4.xml')
+filingtext = Net::HTTP.get_response(URI.parse(url_target)).body
+end
+
+if filingtext.include? "Oops! We can't find this file"
+url_target = @filing.url.sub( @filing.file_id.sub("urn:tag:sec.gov,2008:accession-number=", "") + '-index.htm','doc1.xml')
+filingtext = Net::HTTP.get_response(URI.parse(url_target)).body
+end
+
+if filingtext.include? "Oops! We can't find this file"
+url_target = @filing.url.sub( @filing.file_id.sub("urn:tag:sec.gov,2008:accession-number=", "") + '-index.htm','doc2.xml')
+filingtext = Net::HTTP.get_response(URI.parse(url_target)).body
+end
+
+if filingtext.include? "Oops! We can't find this file"
+url_target = @filing.url.sub( @filing.file_id.sub("urn:tag:sec.gov,2008:accession-number=", "") + '-index.htm','doc3.xml')
+filingtext = Net::HTTP.get_response(URI.parse(url_target)).body
+end
+
+if filingtext.include? "Oops! We can't find this file"
+url_target = @filing.url.sub( @filing.file_id.sub("urn:tag:sec.gov,2008:accession-number=", "") + '-index.htm','doc4.xml')
+filingtext = Net::HTTP.get_response(URI.parse(url_target)).body
+end
+
+
+if filingtext.include? "Oops! We can't find this file"
+url_target = @filing.url.sub( '-index.htm','.txt')
+filingtext = Net::HTTP.get_response(URI.parse(url_target)).body
+textBased = true
+end
+
+#require 'net/http'
+#
+
+if !textBased
+filingtext = Net::HTTP.get_response(URI.parse(url_target)).body
+filingtext = Hash.from_xml(filingtext).to_json
+filingtext = ActiveSupport::JSON.decode(filingtext)
+
+stockticker = filingtext['ownershipDocument']['issuer']['issuerTradingSymbol'] 
+footnote = filingtext['ownershipDocument']['footnotes']['footnote']
+periodofreport = filingtext['ownershipDocument']['periodOfReport']
+end
+#filingtext.include? "Oops! We can't find this file"
+
+%>
+<%#= textBased %>
+<%#= url_target %>
+<%#= 
+  if !textBased
+  filingtext
+  end %>
+
+<%#= footnote %>
+
+<div class='clearfix'>
+<p id="notice"><%= notice %></p>
+  <!-- <strong>Url:</strong> -->
+  <%= link_to 'SEC Page', @filing.url, :class => 'button success right' %>
+  <%= link_to 'Text Filing', @filing.url.sub( '-index.htm','.txt'), :class => 'button right'  %>
+
+<div class="left">
+<%#= if !textBased
+    "<p><strong>Ticker: </strong>#{stockticker}</p>".html_safe
+    end
+    %>
 <p>
   <strong>Title:</strong>
   <%= @filing.title %>
 </p>
-
-<p>
-  <strong>Url:</strong>
-  <%= @filing.url %>
-</p>
-
-<p>
-  <strong>Links:</strong>
-  <%= @filing.links %>
-</p>
-
-<p>
-  <strong>Summary:</strong>
-  <%= @filing.summary %>
-</p>
-
 <p>
   <strong>Updated:</strong>
   <%= @filing.updated %>
 </p>
 
 <p>
-  <strong>Categories:</strong>
+  <strong>Form:</strong>
   <%= @filing.categories %>
 </p>
 
@@ -35,5 +97,15 @@
   <%= @filing.id %>
 </p>
 
+<p>
+  <strong>Company Link:</strong>
+  <%= link_to @company.name, @company %>
+</p>
+
+
+<br />
+
+
 <%= link_to 'Edit', edit_filing_path(@filing) %> |
 <%= link_to 'Back', filings_path %>
+</div>

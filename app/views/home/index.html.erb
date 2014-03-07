@@ -1,50 +1,152 @@
-<div class="row columns">
-<h3>Home</h3>
+<br />
 
-<canvas class="panel" id="results" width="500px" height="400px"></canvas>
-
-</div>
-<%#= @filings.count('categories', :distinct => true) %>
-
-<script>
-var buyerData = {
-	labels : ["Form 3","Form 4","Form SC 13G","Form D"/**,"May","June","July"**/],
-	datasets : [
-		{
-			fillColor : "rgb(0,128,128)",
-			strokeColor : "rgba(210,220,220,1)",
-			data : [<%= @filings.where(categories: '3').count %>,<%= @filings.where(categories: '4').count %>,<%= @filings.where(categories: 'SC 13G').count %>,<%= @filings.where(categories: 'D').count %>/**,90,81,56,55,40**/]
-		}/**,
-		{
-			fillColor : "rgba(151,187,205,0.5)",
-			strokeColor : "rgba(151,187,205,1)",
-			data : [28,48,40,19,96,27,100]
-		}**/
-	]
-};
-
-var pieOptions = {
-    segmentShowStroke : true,
-    segmentStrokeColor : "#fff",
-    segmentStrokeWidth : 2,
-    percentageInnerCutout : 50,
-    animation : true,
-    animationSteps : 100,
-    animationEasing : "easeOutBounce",
-    animateRotate : true,
-    animateScale : false,
-    onAnimationComplete : "revealInfo()",
-    labelFontFamily : "Arial",
-    labelFontStyle : "normal",
-    labelFontSize : 24,
-    labelFontColor : "#666"
-}
-
-function revealInfo()
-{
-    alert("Hello World!");
-}
-
-var results = document.getElementById('results').getContext('2d');
-new Chart(results).Bar(buyerData,pieOptions);
-</script>
+      <!-- Header Content -->
+ 
+        <div class="row">
+ 
+          <div class="large-6 columns">
+ 
+            <%= @most_common_filings_graph %><br>
+ 
+          </div>
+ 
+ 
+          <div class="large-6 columns">
+ 
+            <h3 class="show-for-small">Header<hr/></h3>
+ 
+            <div class="panel">
+              <h4 class="hide-for-small">Header<hr/></h4>
+            <h5 class="subheader">Fusce ullamcorper mauris in eros dignissim molestie posuere felis blandit. Aliquam erat volutpat. Mauris ultricies posuere vehicula. Sed sit amet posuere erat. Quisque in ipsum non augue euismod dapibus non et eros. Pellentesque consectetur tempus mi iaculis bibendum. Ut vel dolor sed eros tincidunt volutpat ac eget leo.</h5>
+            </div>
+ 
+          <div class="row">
+              <div class="large-6 small-6 columns">
+                <div class="panel">
+                  <h5>Header</h5>
+                <h6 class="subheader">Praesent placerat dui tincidunt elit suscipit sed.</h6>
+                <a href="#" class="small button">BUTTON TIME!</a>
+                </div>
+              </div>
+ 
+              <div class="large-6 small-6 columns">
+                <div class="panel">
+                  <h5>Header</h5>
+                <h6 class="subheader">Praesent placerat dui tincidunt elit suscipit sed.</h6>
+                <a href="#" class="small button">BUTTON TIME!</a>
+                </div>
+              </div>
+          </div>
+ 
+          </div>
+ 
+        </div>
+ 
+      <!-- End Header Content -->
+ 
+ 
+      <!-- Search Bar -->
+ 
+        <!-- <div class="row">
+ 
+          <div class="large-12 columns">
+            <div class="radius panel">
+ 
+            <form>
+              <div class="row collapse">
+ 
+                <div class="large-10 small-8 columns">
+                  <input type="text" />
+                </div>
+ 
+                <div class="large-2 small-3 columns">
+                  <a href="#" class="postfix button expand">Search</a>
+                </div>
+ 
+              </div>
+            </form>
+ 
+          </div>
+          </div>
+ 
+        </div> -->
+ 
+      <!-- End Search Bar -->
+ 
+ 
+      <!-- Thumbnails -->
+ 
+        <div class="row">
+          	<div class="large-12 show-for-small columns">
+          	<h3>Header</h3><hr>
+        </div>
+ 
+          <div class="large-3 small-12 medium-6 columns">
+			<div class="panel">
+              <p><b>Recent Filings</b></p>
+            </div>
+            <div class="panel">
+            <%#= @filings.first.title %>
+			<%= link_to clean_title(@filings.reverse.first), @filings.reverse.first, :class => 'button success', :style => 'width:100%;' %>
+          	<%= link_to clean_title(@filings.reverse.second), @filings.reverse.second, :class => 'button success', :style => 'width:100%;' %>
+          	<%= link_to clean_title(@filings.reverse.third), @filings.reverse.third, :class => 'button success', :style => 'width:100%;' %>
+          	<%= link_to clean_title(@filings.reverse.fourth), @filings.reverse.fourth, :class => 'button success', :style => 'width:100%;' %>
+          	<%= link_to clean_title(@filings.reverse.fifth), @filings.reverse.fifth, :class => 'button success', :style => 'width:100%;' %>  
+          	</div>        
+          	
+          </div>
+ 
+          <div class="large-3 small-12 medium-6 columns">
+            <img src="http://placehold.it/500x500&text=Thumbnail">
+            <div class="panel">
+              <p>Description</p>
+            </div>
+          </div>
+ 
+          <div class="large-3 small-12 medium-6 columns">
+            <img src="http://placehold.it/500x500&text=Thumbnail">
+            <div class="panel">
+              <p>Description</p>
+            </div>
+          </div>
+ 
+          <div class="large-3 small-12 medium-6 columns">
+            <img src="http://placehold.it/500x500&text=Thumbnail">
+            <div class="panel">
+              <p>Description</p>
+            </div>
+          </div>
+ 
+        </div>
+ 
+      <!-- End Thumbnails -->
+ 
+ 
+      <!-- Footer -->
+ 
+        <footer class="row">
+        <div class="large-12 columns"><hr />
+            <div class="row">
+ 
+              <div class="large-6 columns">
+                  <p>© Copyright no one at all. Go to town.</p>
+              </div>
+ 
+              <div class="large-6 columns">
+                  <ul class="inline-list right">
+                    <li><a href="#">Link 1</a></li>
+                    <li><a href="#">Link 2</a></li>
+                    <li><a href="#">Link 3</a></li>
+                    <li><a href="#">Link 4</a></li>
+                  </ul>
+              </div>
+ 
+            </div>
+        </div>
+      </footer>
+ 
+      <!-- End Footer -->
+ 
+ 
+    </div>
+  </div>

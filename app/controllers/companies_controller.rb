@@ -1,6 +1,8 @@
 class CompaniesController < ApplicationController
   before_action :set_company, only: [:show, :edit, :update, :destroy]
 
+
+
   # GET /companies
   # GET /companies.json
   def index
@@ -10,7 +12,11 @@ class CompaniesController < ApplicationController
   # GET /companies/1
   # GET /companies/1.json
   def show
-    @filings = Filing.all
+    #@companies = Company.all
+    #@filings = Filing.find(cik: @companies.cik )
+    #@filings = Filing.where("cik = ?", @company.cik)
+    #@filings = Array.new
+    #@filings = @company.filings
   end
 
   # GET /companies/new
@@ -62,6 +68,9 @@ class CompaniesController < ApplicationController
     end
   end
 
+  
+
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_company
@@ -72,4 +81,6 @@ class CompaniesController < ApplicationController
     def company_params
       params.require(:company).permit(:name, :cik, :industry)
     end
+
+
 end

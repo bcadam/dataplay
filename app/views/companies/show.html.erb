@@ -1,8 +1,19 @@
-<p id="notice"><%= notice %></p>
+<%# feed = Feedzirra::Feed.fetch_and_parse("http://www.sec.gov/cgi-bin/browse-edgar?action=getcurrent&type=&company=&dateb=&owner=include&start=0&count=100&output=atom")
+    @test = feed.entries.first.entry_id %>
 
+<%#= debug(@test) %>
+<%#= debug(@company.filings.size) %>
+
+<%# @filing = @company.filings.create(updated: Time.now) %>
+<%#= @filing.id %>
+<%#= @filing.destroy %>
+
+<div class='clearfix'>
+<p id="notice"><%= notice %></p>
 <p>
-  <strong>Name:</strong>
-  <%= @company.name %>
+  <strong>
+  <%= clean_name(@company) %>
+  </strong>
 </p>
 
 <p>
@@ -14,7 +25,45 @@
   <strong>Industry:</strong>
   <%= @company.industry %>
 </p>
+<%#= debug @filings.count %>
+<% if @company.filings.size != 0 %>
+<p>
+<strong><h3>Filings</h3></strong>
+</p>
 
+<div class="large-12 columns">
+ 	
+      
+      <!-- Feed Entry -->
+  <table class="large-12 columns">
+  <thead>
+    <tr>
+      <th>Updated</th>
+      <th>Form</th>
+      <th>Filing Id</th>
+      <th>ID</th>
+      <th>Link</th>
+    </tr>
+  </thead>
 
+  <tbody>
+    <% @company.filings.reverse.take(100).each do |filing| %>
+      <tr>
+        <!--<td><%#= filing.links %></td>-->
+        <td><%= filing.updated %></td>
+        <td><%= filing.categories %></td>
+        <td><%= link_to filing.file_serial, filing  %></td>
+        <td><%= filing.id %></td>
+        <td><%= link_to "Filing", filing.url.gsub("-index.htm", ".txt"), :class => "button", :target => "_blank" %></td>
+<!--<td><%#= link_to 'Show', filing, :class =>'button'  %></td>-->
+      </tr>
+      <tr id="<%=filing.id %>" height="0px;"></tr>
+    <% end %>
+  </tbody>
+</table>
+
+</div>
+<% end %>
 <%= link_to 'Edit', edit_company_path(@company) %> |
 <%= link_to 'Back', companies_path %>
+</div>

@@ -17,7 +17,8 @@ gem 'protected_attributes'
 gem 'feedzirra'
 gem 'sanitize'
 gem 'whenever', :require => false
-gem "lazyload-rails"
+gem 'lazyload-rails'
+gem 'json'
 
 
 group :development do

@@ -173,6 +173,7 @@ DEPENDENCIES
   foundation-rails
   jbuilder (~> 1.2)
   jquery-rails
+  json
   lazyload-rails
   omniauth
   omniauth-twitter
