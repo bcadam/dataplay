@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140307011528) do
+ActiveRecord::Schema.define(version: 20140310222653) do
 
   create_table "companies", force: true do |t|
     t.string  "name"
@@ -21,20 +21,20 @@ ActiveRecord::Schema.define(version: 20140307011528) do
   end
 
   create_table "filings", force: true do |t|
-    t.integer "company_id"
-    t.string  "title"
-    t.string  "url"
-    t.string  "links"
-    t.string  "summary"
-    t.date    "updated"
-    t.string  "categories"
-    t.string  "file_id"
-    t.string  "file_serial"
-    t.string  "cik"
-    t.text    "filingtext"
-    t.string  "stockticker"
-    t.text    "footnote"
-    t.date    "periodofreport"
+    t.integer  "company_id"
+    t.string   "title"
+    t.string   "url"
+    t.string   "links"
+    t.string   "summary"
+    t.datetime "updated"
+    t.string   "categories"
+    t.string   "file_id"
+    t.string   "file_serial"
+    t.string   "cik"
+    t.text     "filingtext"
+    t.string   "stockticker"
+    t.text     "footnote"
+    t.date     "periodofreport"
   end
 
   create_table "users", force: true do |t|

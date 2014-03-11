@@ -1,41 +1,79 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
-  helper_method :current_user, :user_signed_in?, :correct_user?
-
-  helper_method :clean_title, :clean_string, :clean_name, :clean_name_string
-
-  def clean_title (filings)
-    cleaned_name = filings.title.sub('(Issuer)' , '')
-    cleaned_name = cleaned_name.sub('(Reporting)' , '')
-    cleaned_name = cleaned_name.sub('(Filer)' , '')
-    cleaned_name = cleaned_name.sub('(Filed by)' , '')
-    cleaned_name = cleaned_name.sub('(' + filings.cik + ')' , '')
+  helper_method :current_user, :user_signed_in?, :correct_user?, :get_last_seven  
 
 
-    return cleaned_name
+  ##  Will graph the last seven days of filings. 
+  #   Needs an array and the desired title of the canvas. Then the name of the header
+  def get_last_seven(passed, newid, sectiontitle)
+  recent = Array.new
+  today = DateTime.now.utc
+  todaytext = today.to_date
+  onedaytext = (today - 1.day).to_date
+  twodaytext = (today - 2.day).to_date
+  threedaytext = (today - 3.day).to_date
+  fourdaytext = (today - 4.day).to_date
+  fivedaytext = (today - 5.day).to_date
+  sixdaytext = (today - 6.day).to_date
 
-  end
+  recent.push( passed.where(["DATE(updated) = ?", todaytext ]).size )
+  recent.push( passed.where(["DATE(updated) = ?", onedaytext ]).size )
+  recent.push( passed.where(["DATE(updated) = ?", twodaytext ]).size )
+  recent.push( passed.where(["DATE(updated) = ?", threedaytext ]).size )
+  recent.push( passed.where(["DATE(updated) = ?", fourdaytext ]).size )
+  recent.push( passed.where(["DATE(updated) = ?", fivedaytext ]).size )
+  recent.push( passed.where(["DATE(updated) = ?", sixdaytext ]).size )
 
-  def clean_name (filings)
-    cleaned_name = filings.name.sub('(Issuer)' , '')
-    cleaned_name = cleaned_name.sub('(Reporting)' , '')
-    cleaned_name = cleaned_name.sub('(Filer)' , '')
-    cleaned_name = cleaned_name.sub('(Filed by)' , '')
-    cleaned_name = cleaned_name.sub('(' + filings.cik + ')' , '')
+  "<p><strong>#{sectiontitle}</strong></p><canvas class='panel' id='#{newid}' width='600' height='300'></canvas>
 
+    <script>
+    var buyerData = {
+      labels : ['#{todaytext}','#{onedaytext}','#{twodaytext}','#{threedaytext}','#{fourdaytext}','#{fivedaytext}','#{sixdaytext}'],
+      datasets : [
+        {
+          fillColor : 'rgb(0,128,128)',
+          strokeColor : 'rgba(210,220,220,1)',
+          data : [#{recent[0]},#{recent[1]},#{recent[2]},#{recent[3]},#{recent[4]},#{recent[5]},#{recent[6]}]
+        }/**,
+        {
+          fillColor : 'rgba(151,187,205,0.5)',
+          strokeColor : 'rgba(151,187,205,1)',
+          data : [28,48,40,19,96,27,100]
+        }**/
+      ]
+    };
 
-    return cleaned_name
+      var pieOptions = {
+          segmentShowStroke : true,
+          segmentStrokeColor : '#fff',
+          segmentStrokeWidth : 2,
+          percentageInnerCutout : 50,
+          animation : true,
+          animationSteps : 100,
+          animationEasing : 'easeOutBounce',
+          animateRotate : true,
+          animateScale : false,
+          onAnimationComplete : 'revealInfo()',
+          labelFontFamily : 'Arial',
+          labelFontStyle : 'normal',
+          labelFontSize : 24,
+          labelFontColor : '#666'
+      }
 
-  end
+      function revealInfo()
+      {
+          alert('Hello World!');
+      }
 
-  def clean_name_string (filings)
-    cleaned_name = filings.sub('(Issuer)' , '')
-    cleaned_name = cleaned_name.sub('(Reporting)' , '')
-    cleaned_name = cleaned_name.sub('(Filer)' , '')
-    cleaned_name = cleaned_name.sub('(Filed by)' , '')
+      var results = document.getElementById('#{newid}').getContext('2d');
+      new Chart(results).Bar(buyerData,pieOptions);
 
-    return cleaned_name
+      $('##{newid}').css('width','100%');
+      $('##{newid}').css('max-width','600px');
+      $('##{newid}').css('height','auto');
+      </script>".html_safe
+
 
   end
 

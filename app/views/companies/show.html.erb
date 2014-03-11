@@ -12,7 +12,7 @@
 <p id="notice"><%= notice %></p>
 <p>
   <strong>
-  <%= clean_name(@company) %>
+  <%= @company.name %>
   </strong>
 </p>
 
@@ -25,15 +25,16 @@
   <strong>Industry:</strong>
   <%= @company.industry %>
 </p>
-<%#= debug @filings.count %>
+
 <% if @company.filings.size != 0 %>
+
+  <%= get_last_seven(@company.filings,'test', 'Last Seven Days:') %>
+  
+
 <p>
 <strong><h3>Filings</h3></strong>
 </p>
-
 <div class="large-12 columns">
- 	
-      
       <!-- Feed Entry -->
   <table class="large-12 columns">
   <thead>
@@ -45,9 +46,9 @@
       <th>Link</th>
     </tr>
   </thead>
-
+  
   <tbody>
-    <% @company.filings.reverse.take(100).each do |filing| %>
+    <% @company.filings.sort_by(&:updated).reverse.take(100).each do |filing| %>
       <tr>
         <!--<td><%#= filing.links %></td>-->
         <td><%= filing.updated %></td>
@@ -64,6 +65,6 @@
 
 </div>
 <% end %>
-<%= link_to 'Edit', edit_company_path(@company) %> |
-<%= link_to 'Back', companies_path %>
+<%= link_to 'Edit', edit_company_path(@company), :class => 'button' %>
+<%= link_to 'Back', companies_path, :class => 'button success' %>
 </div>
