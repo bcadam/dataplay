@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
 
   ##  Will graph the last seven days of filings. 
   #   Needs an array and the desired title of the canvas. Then the name of the header
-  def get_last_seven(passed, newid, sectiontitle)
+  def get_last_seven(passed, needle, newid, sectiontitle)
   recent = Array.new
   today = DateTime.now.utc
   todaytext = today.to_date
@@ -17,13 +17,21 @@ class ApplicationController < ActionController::Base
   fivedaytext = (today - 5.day).to_date
   sixdaytext = (today - 6.day).to_date
 
-  recent.push( passed.where(["DATE(updated) = ?", todaytext ]).size )
-  recent.push( passed.where(["DATE(updated) = ?", onedaytext ]).size )
-  recent.push( passed.where(["DATE(updated) = ?", twodaytext ]).size )
-  recent.push( passed.where(["DATE(updated) = ?", threedaytext ]).size )
-  recent.push( passed.where(["DATE(updated) = ?", fourdaytext ]).size )
-  recent.push( passed.where(["DATE(updated) = ?", fivedaytext ]).size )
-  recent.push( passed.where(["DATE(updated) = ?", sixdaytext ]).size )
+  recent.push( passed.where(["DATE(#{needle}) = ?", todaytext ]).size )
+  recent.push( passed.where(["DATE(#{needle}) = ?", onedaytext ]).size )
+  recent.push( passed.where(["DATE(#{needle}) = ?", twodaytext ]).size )
+  recent.push( passed.where(["DATE(#{needle}) = ?", threedaytext ]).size )
+  recent.push( passed.where(["DATE(#{needle}) = ?", fourdaytext ]).size )
+  recent.push( passed.where(["DATE(#{needle}) = ?", fivedaytext ]).size )
+  recent.push( passed.where(["DATE(#{needle}) = ?", sixdaytext ]).size )
+
+  todaytext = todaytext.to_formatted_s(:short)
+  onedaytext = onedaytext.to_formatted_s(:short)
+  twodaytext = twodaytext.to_formatted_s(:short)
+  threedaytext = threedaytext.to_formatted_s(:short)
+  fourdaytext = fourdaytext.to_formatted_s(:short)
+  fivedaytext = fivedaytext.to_formatted_s(:short)
+  sixdaytext = sixdaytext.to_formatted_s(:short)
 
   "<p><strong>#{sectiontitle}</strong></p><canvas class='panel' id='#{newid}' width='600' height='300'></canvas>
 
