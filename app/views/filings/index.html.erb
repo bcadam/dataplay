@@ -7,7 +7,12 @@ setTimeout('window.location.reload();', 60000);
 
 <%#= '<h1>Most common filings</h1><br />'.html_safe %>
 <%#= graph( get_common_elements(@filings, "categories") , "filingcanvas" , 500 , 400 ) %>
-<%= get_last_seven(@filings,'updated' , 'test', '<br />Last Seven Days:') %>
+<%= get_last_seven(@filings,'updated' , 'test', '') %>
+<% today = DateTime.now.utc
+  todaytext = today.to_date
+
+  %>
+<%#= graph( get_common_elements(@filings.where(["DATE(updated) = ?", todaytext ]), "categories") , "filingcanvas" , 500 , 400 )%>
 
 <h1>Latest 100 filings</h1>
 <table class='large-12 medium-12 small-12'>
@@ -48,4 +53,4 @@ setTimeout('window.location.reload();', 60000);
 <br>
 
 
-<%= link_to 'New Filing', new_filing_path %>
+<%#= link_to 'New Filing', new_filing_path %>

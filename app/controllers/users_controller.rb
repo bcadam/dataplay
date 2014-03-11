@@ -22,6 +22,7 @@ class UsersController < ApplicationController
 
 def show
     @user = User.find(params[:id])
+    #@watch = WatchList.where(user_id: @user.user_id)
   end
 
 end

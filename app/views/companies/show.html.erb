@@ -26,10 +26,10 @@
   <%= @company.industry %>
 </p>
 
-<% if @company.filings.size != 0 %>
+<% if @company.filings.size > 1 %>
 
   <%= get_last_seven(@company.filings,'updated' , 'test', 'Last Seven Days:') %>
-  
+<% end %> 
 
 <p>
 <strong><h3>Filings</h3></strong>
@@ -64,7 +64,7 @@
 </table>
 
 </div>
-<% end %>
+
 <%= link_to 'Edit', edit_company_path(@company), :class => 'button' %>
 <%= link_to 'Back', companies_path, :class => 'button success' %>
 </div>

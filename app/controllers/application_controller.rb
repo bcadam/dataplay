@@ -1,12 +1,18 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
-  helper_method :current_user, :user_signed_in?, :correct_user?, :get_last_seven  
+  helper_method :current_user, :user_signed_in?, :correct_user?, :get_last_seven, :graph, :get_common_elements
 
 
-  ##  Will graph the last seven days of filings. 
+  ##  Will graph the last seven days of an array. 
   #   Needs an array and the desired title of the canvas. Then the name of the header
+  #   passed = array to be graphed
+  #   needle = name of date value in model
+  #   newid = id of canvas on graph// must be unique to page
+  #   sectiontitle = title to display above graph// can accept html
   def get_last_seven(passed, needle, newid, sectiontitle)
+
+  if passed.size > 0
   recent = Array.new
   today = DateTime.now.utc
   todaytext = today.to_date
@@ -81,7 +87,7 @@ class ApplicationController < ActionController::Base
       $('##{newid}').css('max-width','600px');
       $('##{newid}').css('height','auto');
       </script>".html_safe
-
+    end
 
   end
 

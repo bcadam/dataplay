@@ -13,5 +13,6 @@
 class WatchList < ActiveRecord::Base
 	belongs_to :user
 
+	attr_accessible :name, :companycik, :user_id
 	
 end

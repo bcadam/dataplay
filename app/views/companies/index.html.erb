@@ -18,10 +18,11 @@
     </tr>
   </thead>
   <tbody>
+    <%# @companies.filings.size.order("DESC").each do |company| %>
     <% @companies.reverse.take(100).each do |company| %>
       <tr>
         <td><%= link_to company.name, company %></td>
-<!--         <td><%#= company.cik %></td>
+<!--        <td><%#= company.cik %></td>
  -->        <td><%= company.industry %></td>
         <td><%= company.id %></td>
         <td class='right'><%= company.filings.size %>
@@ -35,4 +36,4 @@
 
 <br>
 
-<%= link_to 'New Company', new_company_path %>
+<%#= link_to 'New Company', new_company_path %>
