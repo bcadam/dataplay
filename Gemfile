@@ -31,5 +31,7 @@ group :development, :test do
   gem 'factory_girl_rails'
 end
 group :production do
-  gem 'thin'
+  #gem 'thin'
+  gem 'pg'
+  gem 'rails_12factor'
 end
