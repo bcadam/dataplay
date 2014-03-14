@@ -130,25 +130,25 @@
 <% def getinfo(array) %>
 <% formattedArray = Array.new %>
 <% temp = array.select{ |x| x[0] == "FILED AS OF DATE:" }.first %>
-<% formattedArray.push(temp[1].to_date) %>
+<% formattedArray.push(temp[1].to_date) if temp != nil %>
 <% temp = array.select{ |x| x[0] == "ACCESSION NUMBER:" }.first %>
-<% formattedArray.push(temp[1]) %>
+<% formattedArray.push(temp[1]) if temp != nil %>
 <% temp = array.select{ |x| x[0] == "COMPANY CONFORMED NAME:" }.first %>
-<% formattedArray.push(temp[1]) %>
+<% formattedArray.push(temp[1]) if temp != nil %>
 <% temp = array.select{ |x| x[0] == "FORM TYPE:" }.first %>
-<% formattedArray.push(temp[1]) %>
+<% formattedArray.push(temp[1]) if temp != nil %>
 <% temp = array.select{ |x| x[0] == "SEC ACT:" }.first %>
-<% formattedArray.push(temp[1]) %>
+<% formattedArray.push(temp[1]) if temp != nil %>
 <% temp = array.select{ |x| x[0] == "IRS NUMBER:" }.first %>
-<% formattedArray.push(temp[1]) %>
+<% formattedArray.push(temp[1]) if temp != nil %>
 <% temp = array.select{ |x| x[0] == "STANDARD INDUSTRIAL CLASSIFICATION:" }.first %>
-<% formattedArray.push(temp[1]) %>
+<% formattedArray.push(temp[1]) if temp != nil %>
 <% temp = array.select{ |x| x[0] == "STATE OF INCORPORATION:" }.first %>
-<% formattedArray.push(temp[1]) %>
+<% formattedArray.push(temp[1]) if temp != nil %>
 <% temp = array.select{ |x| x[0] == "FORMER CONFORMED NAME:" }.first %>
-<% formattedArray.push(temp[1]) %>
+<% formattedArray.push(temp[1]) if temp != nil %>
 <% temp = array.select{ |x| x[0] == "CENTRAL INDEX KEY:" }.first %>
-<% formattedArray.push(temp[1]) %>
+<% formattedArray.push(temp[1]) if temp != nil %>
 
 <% return formattedArray %>
 
@@ -180,10 +180,10 @@
 
 
 <% maininfo('http://www.sec.gov/Archives/edgar/data/1364742/0001086364-14-000089.txt') #notfucked %>
-<%# '<br /><br />'.html_safe %>
-<%# maininfo('http://www.sec.gov/Archives/edgar/data/778365/0000940394-14-000004.txt') #fucked %>
-<%# '<br /><br />'.html_safe %>
-<%# maininfo('http://www.sec.gov/Archives/edgar/data/356028/0000356028-14-000012.txt') #fucked %>
+<% '<br /><br />'.html_safe %>
+<% maininfo('http://www.sec.gov/Archives/edgar/data/778365/0000940394-14-000004.txt') #fucked %>
+<% '<br /><br />'.html_safe %>
+<% maininfo('http://www.sec.gov/Archives/edgar/data/356028/0000356028-14-000012.txt') #fucked %>
 
 
 <%# i = 1993 %>
