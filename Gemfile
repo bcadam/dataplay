@@ -19,6 +19,10 @@ gem 'sanitize'
 gem 'whenever', :require => false
 gem 'lazyload-rails'
 gem 'json'
+gem 'rest_client'
+gem 'nokogiri'
+#gem 'open-uri'
+
 
 
 group :development do

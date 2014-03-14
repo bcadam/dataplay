@@ -10,6 +10,7 @@ Dataplay::Application.routes.draw do
   
   #get '/importer' => "filings#importer"
   get '/backlog' => 'filings#backlog'
+  get '/archive' => 'filings#archive'
 
   #get '/processor' => 'filings#processor'
 

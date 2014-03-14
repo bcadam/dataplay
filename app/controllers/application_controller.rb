@@ -86,6 +86,9 @@ class ApplicationController < ActionController::Base
       $('##{newid}').css('width','100%');
       $('##{newid}').css('max-width','600px');
       $('##{newid}').css('height','auto');
+
+      //$('##{newid}').addClass('large-12');
+
       </script>".html_safe
     end
 
@@ -164,6 +167,12 @@ class ApplicationController < ActionController::Base
 
       var results = document.getElementById('#{id}').getContext('2d');
       new Chart(results).Bar(buyerData,pieOptions);
+
+      //$('##{id}').css('width','100%');
+      $('##{id}').css('max-width','100%');
+      $('##{id}').css('height','auto');
+
+
       </script>".html_safe
 
   end

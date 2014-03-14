@@ -1,6 +1,14 @@
 class FilingsController < ApplicationController
   before_action :set_filing, only: [:show, :edit, :update, :destroy]
 
+  def archive
+    require 'rest_client'
+    require 'feedzirra'
+    require 'nokogiri'
+    require 'open-uri'
+
+  end
+
   # GET /filings
   # GET /filings.json
   def index
