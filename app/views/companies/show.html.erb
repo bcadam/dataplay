@@ -28,7 +28,7 @@
 
 <% if @company.filings.size > 1 %>
 
-  <%= get_last_seven(@company.filings,'updated' , 'test', 'Last Seven Days:') %>
+  <%#= line_chart @company.filings.group_by_day(:updated).count %>
 <% end %> 
 
 <p>

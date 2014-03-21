@@ -10,6 +10,7 @@
 #
 
 class Company < ActiveRecord::Base
+	attr_accessible :cik, :name
 
 	has_many :filings, class_name: "Filing", foreign_key: "file_id"
         

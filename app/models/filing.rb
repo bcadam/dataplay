@@ -20,7 +20,8 @@
 #
 
 class Filing < ActiveRecord::Base
-	
+	attr_accessible :file_serial, :cik, :title, :url, :updated, :file_id
+
 	belongs_to :company
 
 end

@@ -21,6 +21,9 @@ gem 'lazyload-rails'
 gem 'json'
 gem 'rest_client'
 gem 'nokogiri'
+gem 'chartkick'
+gem 'groupdate'
+
 #gem 'open-uri'
 
 

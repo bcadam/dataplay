@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 20140310222653) do
     t.string   "stockticker"
     t.text     "footnote"
     t.date     "periodofreport"
+    t.string   "irsnumber"
   end
 
   create_table "users", force: true do |t|

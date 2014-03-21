@@ -3,11 +3,13 @@
 
 <% ##Get the url of an xml from the year and quarter %>
 <% def getArchive(year, quarter) %>
-	<% @destination = "ftp://ftp.sec.gov/edgar/full-index/#{year}/#{quarter}/sitemap.quarterlyindex1.xml" %> 
-	<% doc = Nokogiri::XML(open(@destination)) %>
+	<% 	@destination = "ftp://ftp.sec.gov/edgar/full-index/#{year}/#{quarter}/sitemap.quarterlyindex1.xml" %> 
+	<%	puts(@destination) %>
+	<% 	doc = Nokogiri::XML(open(@destination)) %>
 	
 	<% doc.css("url").each do |entry| %>
 		<%		raw_url = entry.at_css('loc').to_s.sub('<loc>','').sub('</loc>','').sub('-index.htm','.txt').strip %>
+		<%		puts(raw_url) %>
 		<% 		maininfo(raw_url) %>
 		<%# '<br />'.html_safe %>
 	<% end %>
@@ -17,176 +19,185 @@
 <% ##Pass main info in url and get the info we want %>
 <% def maininfo(target) %>
 
-<% breakdown = "before fire" %>
+	<% begin %>
+		<% @global = [] %>
+		<% @destination = target %>
+		<% @doc = Nokogiri::HTML(open(@destination)) %>
 
-<% begin %>
-<% @global = [] %>
-<% @destination = target %>
-<% @doc = Nokogiri::HTML(open(@destination)) %>
-
-<% @indexarray = 
-	[
-		['<SEC-DOCUMENT>'],
-		['<SEC-HEADER>'],
-		['<ACCEPTANCE-DATETIME>'],
-		['ACCESSION NUMBER:'],
-		['CONFORMED SUBMISSION TYPE:'],
-		['CONFORMED PERIOD OF REPORT:'],
-		['PUBLIC DOCUMENT COUNT:'],
-		['FILED AS OF DATE:'],
-		['DATE AS OF CHANGE:'],
-		['EFFECTIVENESS DATE:'],
-		['SUBJECT COMPANY:'],
-		['FILER:'],
-		['COMPANY DATA:'],
-		['COMPANY CONFORMED NAME:'],
-		['CENTRAL INDEX KEY:'],
-		['STANDARD INDUSTRIAL CLASSIFICATION:'],
-		['IRS NUMBER:'],
-		['STATE OF INCORPORATION:'],
-		['FISCAL YEAR END:'],
-		['FILING VALUES:'],
-		['FORM TYPE:'],
-		['SEC ACT:'],
-		['SEC FILE NUMBER:'],
-		['BUSINESS PHONE:'],
-		['FILM NUMBER:'],
-		['BUSINESS ADDRESS:'],
-		['STREET 1:'],
-		['CITY:'],
-		['STATE:'],
-		['ZIP:'],
-		['FORMER COMPANY:'],
-		['FORMER CONFORMED NAME:'],
-		['DATE OF NAME CHANGE:'],
-		['<SERIES-AND-CLASSES-CONTRACTS-DATA>'],
-		['<EXISTING-SERIES-AND-CLASSES-CONTRACTS>'],
-		['<SERIES>'],
-		['<OWNER-CIK>'],
-		['<SERIES-ID>'],
-		['<SERIES-NAME>'],
-		['<CLASS-CONTRACT>'],
-		['<CLASS-CONTRACT-ID>'],
-		['<CLASS-CONTRACT-NAME>'],
-		['<DOCUMENT>'],
-		['</DOCUMENT>'],
-		['</SEC-DOCUMENT>']
-	] %>
+		<% @indexarray = 
+			[
+				['<SEC-DOCUMENT>'],
+				['<SEC-HEADER>'],
+				['<ACCEPTANCE-DATETIME>'],
+				['ACCESSION NUMBER:'],
+				['CONFORMED SUBMISSION TYPE:'],
+				['CONFORMED PERIOD OF REPORT:'],
+				['PUBLIC DOCUMENT COUNT:'],
+				['FILED AS OF DATE:'],
+				['DATE AS OF CHANGE:'],
+				['EFFECTIVENESS DATE:'],
+				['SUBJECT COMPANY:'],
+				['FILER:'],
+				['COMPANY DATA:'],
+				['COMPANY CONFORMED NAME:'],
+				['CENTRAL INDEX KEY:'],
+				['STANDARD INDUSTRIAL CLASSIFICATION:'],
+				['IRS NUMBER:'],
+				['STATE OF INCORPORATION:'],
+				['FISCAL YEAR END:'],
+				['FILING VALUES:'],
+				['FORM TYPE:'],
+				['SEC ACT:'],
+				['SEC FILE NUMBER:'],
+				['BUSINESS PHONE:'],
+				['FILM NUMBER:'],
+				['BUSINESS ADDRESS:'],
+				['STREET 1:'],
+				['CITY:'],
+				['STATE:'],
+				['ZIP:'],
+				['FORMER COMPANY:'],
+				['FORMER CONFORMED NAME:'],
+				['DATE OF NAME CHANGE:'],
+				['<SERIES-AND-CLASSES-CONTRACTS-DATA>'],
+				['<EXISTING-SERIES-AND-CLASSES-CONTRACTS>'],
+				['<SERIES>'],
+				['<OWNER-CIK>'],
+				['<SERIES-ID>'],
+				['<SERIES-NAME>'],
+				['<CLASS-CONTRACT>'],
+				['<CLASS-CONTRACT-ID>'],
+				['<CLASS-CONTRACT-NAME>'],
+				['<DOCUMENT>'],
+				['</DOCUMENT>'],
+				['</SEC-DOCUMENT>']
+			] %>
 
 
-<% $i =0 %>
-<% while $i < @indexarray.length %>
-<% tempindex = @doc.to_s.index(@indexarray[$i][0]) %>
-<% @indexarray[$i].push(tempindex.to_i) %>
-<% $i +=1 %>
-<% end %>
+		<% $i =0 %>
+		<% while $i < @indexarray.length %>
 
-<% @indexarray = @indexarray.sort_by { |name, age| age } %>
-<% @indexarray %>
+		<% tempindex = @doc.to_s.index(@indexarray[$i][0]) %>
+		<% @indexarray[$i].push(tempindex.to_i) %>
+		<% $i +=1 %>
 
-<% $i =0 %>
-<% while $i < @indexarray.length %>
-<% nexti = $i + 1 %>
-<% currentcount = @indexarray[$i][1].to_i %>
-<% nextcount = @indexarray[nexti][1].to_i %>
+		<% end %>
 
-<% if currentcount != 0 && nextcount != 0 %>
-<% difference = nextcount - currentcount %>
-<% tempindex = @doc.to_s[currentcount,difference] %>
-<% tempindex = tempindex.sub(@indexarray[$i][0],'') %>
-<% tempindex = tempindex.gsub(/<\/?[^>]*>/, '') %>
-<% tempindex = tempindex.gsub(/\n/, '') %>
-<% tempindex = tempindex.gsub(/\t/, '') %>
-<% tempindex = tempindex.gsub('&amp;', '').to_s %>
-<% @global.push([@indexarray[$i][0],tempindex]) %>
-<%# @global = @indexarray %>
-<% end %>
+		<% @indexarray = @indexarray.sort_by { |name, age| age } %>
 
-<% $i +=1 %>
+		<% $i =0 %>
+		<% while $i < @indexarray.length %>
 
+			<% nexti = $i + 1 %>
+			<% currentcount = @indexarray[$i][1].to_i %>
+			<% nextcount = @indexarray[nexti][1].to_i %>
 
-<% @correct = @correct + 1 %>
+			<% if currentcount != 0 && nextcount != 0 %>
+				<% difference = nextcount - currentcount %>
+				<% tempindex = @doc.to_s[currentcount,difference] %>
+				<% tempindex = tempindex.sub(@indexarray[$i][0],'') %>
+				<% tempindex = tempindex.gsub(/<\/?[^>]*>/, '') %>
+				<% tempindex = tempindex.gsub(/\n/, '') %>
+				<% tempindex = tempindex.gsub(/\t/, '') %>
+				<% tempindex = tempindex.gsub('&amp;', '').to_s %>
+				<% @global.push([@indexarray[$i][0],tempindex]) %>
+			<% end %>
 
-<% if (@correct % 100) == 0 %>
-<% puts(@correct) %>
-<% end %>
+			<% $i +=1 %>
+			<% @correct = @correct + 1 %>
 
+			<% if (@correct % 100) == 0 %>
+				<% puts(@correct) %>
+			<% end %>
 
-<% end  %>
+		<% end  %>
 
-<% rescue %>
-<% @error = @error + 1 %>
-<% puts( @breakdown) %>
-<% puts( @destination ) %>
-<% puts( @error ) %>
-<% puts( @correct ) %>
-<% end %>
+	<% getinfo(@global,target) %>
 
-<%= getinfo(@global) %>
+	<% rescue %>
 
+	<% @error = @error + 1 %>
 
-<% end %>
+	<%# puts("Destination: " + @destination.to_s ) %>
+	<%# puts("Errors: " + @error.to_s ) %>
+	<%# puts("Correct: " + @correct.to_s ) %>
+	<% getinfo(@global,target) %>
+	<% end %>
 
-<% def getinfo(array) %>
-<% formattedArray = Array.new %>
-<% temp = array.select{ |x| x[0] == "FILED AS OF DATE:" }.first %>
-<% formattedArray.push(temp[1].to_date) if temp != nil %>
-<% temp = array.select{ |x| x[0] == "ACCESSION NUMBER:" }.first %>
-<% formattedArray.push(temp[1]) if temp != nil %>
-<% temp = array.select{ |x| x[0] == "COMPANY CONFORMED NAME:" }.first %>
-<% formattedArray.push(temp[1]) if temp != nil %>
-<% temp = array.select{ |x| x[0] == "FORM TYPE:" }.first %>
-<% formattedArray.push(temp[1]) if temp != nil %>
-<% temp = array.select{ |x| x[0] == "SEC ACT:" }.first %>
-<% formattedArray.push(temp[1]) if temp != nil %>
-<% temp = array.select{ |x| x[0] == "IRS NUMBER:" }.first %>
-<% formattedArray.push(temp[1]) if temp != nil %>
-<% temp = array.select{ |x| x[0] == "STANDARD INDUSTRIAL CLASSIFICATION:" }.first %>
-<% formattedArray.push(temp[1]) if temp != nil %>
-<% temp = array.select{ |x| x[0] == "STATE OF INCORPORATION:" }.first %>
-<% formattedArray.push(temp[1]) if temp != nil %>
-<% temp = array.select{ |x| x[0] == "FORMER CONFORMED NAME:" }.first %>
-<% formattedArray.push(temp[1]) if temp != nil %>
-<% temp = array.select{ |x| x[0] == "CENTRAL INDEX KEY:" }.first %>
-<% formattedArray.push(temp[1]) if temp != nil %>
+	<% '<br /><br />'.html_safe %>
 
-<% return formattedArray %>
 
 <% end %>
 
+<% def getinfo(array, target) %>
+	<% formattedArray = Array.new %>
+	<% temp = array.select{ |x| x[0] == "FILED AS OF DATE:" }.first %>
+	<% formattedArray[0] = temp[1].to_date if temp != nil #0 %>
+	<% temp = array.select{ |x| x[0] == "ACCESSION NUMBER:" }.first %>
+	<% formattedArray[1] = temp[1] if temp != nil #0 %>
+	<% temp = array.select{ |x| x[0] == "COMPANY CONFORMED NAME:" }.first %>
+	<% formattedArray[2] = temp[1] if temp != nil #0 %>
+	<% temp = array.select{ |x| x[0] == "FORM TYPE:" }.first %>
+	<% formattedArray[3] = temp[1] if temp != nil #0 %>
+	<% temp = array.select{ |x| x[0] == "SEC ACT:" }.first %>
+	<% formattedArray[4] = temp[1] if temp != nil #0 %>
+	<% temp = array.select{ |x| x[0] == "IRS NUMBER:" }.first %>
+	<% formattedArray[5] = temp[1] if temp != nil #0 %>
+	<% temp = array.select{ |x| x[0] == "STANDARD INDUSTRIAL CLASSIFICATION:" }.first %>
+	<% formattedArray[6] = temp[1] if temp != nil #0 %>
+	<% temp = array.select{ |x| x[0] == "STATE OF INCORPORATION:" }.first %>
+	<% formattedArray[7] = temp[1] if temp != nil #0 %>
+	<% temp = array.select{ |x| x[0] == "FORMER CONFORMED NAME:" }.first %>
+	<% formattedArray[8] = temp[1] if temp != nil #0 %>
+	<% temp = array.select{ |x| x[0] == "CENTRAL INDEX KEY:" }.first %>
+	<% formattedArray[9] = temp[1] if temp != nil #0 %>
+	<% temp = array.select{ |x| x[0] == "CONFORMED SUBMISSION TYPE:" }.first %>
+	<% formattedArray[10] = temp[1] if temp != nil #0 %>
+	<% temp = array.select{ |x| x[0] == "STANDARD INDUSTRIAL CLASSIFICATION:" }.first %>
+	<% formattedArray[11] = temp[1] if temp != nil #0 %>
 
-<% def printinfo(name,key,irs) %>
-<%= name %>
-<%= "<br />".html_safe %>
-<%= key %>
-<%= "<br />".html_safe %>
-<%= irs %>
-<%= "<br />".html_safe %>
+	<% @company = Company.find_or_initialize_by(cik: formattedArray[9] )
+
+	    @filing = @company.filings.find_or_initialize_by(file_serial: formattedArray[1])
+
+	    @filing.cik        		= formattedArray[9]
+	    @filing.title      		= formattedArray[2]
+	    @filing.irsnumber  		= formattedArray[5]
+	    #@filing.links      	= formattedArray[9]
+	    #@filing.summary    	= formattedArray[9]
+	    @filing.updated    		= formattedArray[0]
+	    @filing.categories 		= formattedArray[10]
+	    @filing.file_serial    	= formattedArray[1]
+	    @filing.url = target
+	          
+	          @company.cik = @filing.cik 
+	          @company.name = formattedArray[2]
+	          @company.industry = formattedArray[11]
+	          @company.save
+
+	    @filing.save
+
+	   %>
+	<%#= debug(@filing) %>
+	<%#= debug(formattedArray) %>
+	<%#= debug(@filing.cik) %>
+
+	<%#= puts(@filings.size) %>
+	<%# puts(formattedArray) %>
+
 <% end %>
 
-<% def printinfo(name,key,sic,irs,state,type) %>
-<%= name %>
-<%= "<br />".html_safe %>
-<%= key %>
-<%= "<br />".html_safe %>
-<%= sic %>
-<%= "<br />".html_safe %>
-<%= irs %>
-<%= "<br />".html_safe %>
-<%= state %>
-<%= "<br />".html_safe %>
-<%= type %>
-<% end %>
 
 
-<% maininfo('http://www.sec.gov/Archives/edgar/data/1364742/0001086364-14-000089.txt') #notfucked %>
-<% '<br /><br />'.html_safe %>
-<% maininfo('http://www.sec.gov/Archives/edgar/data/778365/0000940394-14-000004.txt') #fucked %>
-<% '<br /><br />'.html_safe %>
-<% maininfo('http://www.sec.gov/Archives/edgar/data/356028/0000356028-14-000012.txt') #fucked %>
+<%# maininfo('http://www.sec.gov/Archives/edgar/data/12978/0000012978-94-000002.txt
+') #notfucked %>
+<%# '<br /><br />'.html_safe %>
+<%# maininfo('http://www.sec.gov/Archives/edgar/data/3197/0001181431-14-000418.txt') #fucked %>
+<%# '<br /><br />'.html_safe %>
+<%# maininfo('http://www.sec.gov/Archives/edgar/data/356028/0000356028-14-000012.txt') #fucked %>
 
 
-<%# i = 1993 %>
+<%# i = 1996 %>
 <% i = 2014 %>
 <% num = DateTime.now.year - 1 %>
 <% quartArray = ["QTR1","QTR2","QTR3","QTR4"] %>
@@ -198,7 +209,7 @@
 	<% quartCount = 0 %>
 
 	<% while quartCount <= 3  do %>
-	<%#= getArchive(i, quartArray[quartCount]) %>
+	<% getArchive(i, quartArray[quartCount]) %>
 	<% quartCount += 1 %>
 	<% end %>
 
@@ -210,7 +221,7 @@
 	<% "<div>#{i}</div>".html_safe %>
 
 <% while quartCount < quarter  do %>
-	<%#= getArchive(i, quartArray[quartCount]) %>
+	<% getArchive(i, quartArray[quartCount]) %>
 	<% quartCount += 1 %>
 <% end %>
 

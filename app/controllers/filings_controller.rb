@@ -7,12 +7,14 @@ class FilingsController < ApplicationController
     require 'nokogiri'
     require 'open-uri'
 
+    @filings = Filing.all
+    
   end
 
   # GET /filings
   # GET /filings.json
   def index
-    import
+    #import
     @filings = Filing.all
     @companies = Company.all
   end

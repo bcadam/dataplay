@@ -1,17 +1,11 @@
 <script>
-setTimeout('window.location.reload();', 60000);
+//setTimeout('window.location.reload();', 60000);
 
 //$("td").lazyload();
 
 </script>
+<%= column_chart Filing.group("categories").count.sort {|a,b| a[1] <=> b[1]}.reverse.take(5) %>
 
-<%#= '<h1>Most common filings</h1><br />'.html_safe %>
-<%#= graph( get_common_elements(@filings, "categories") , "filingcanvas" , 500 , 400 ) %>
-<%= get_last_seven(@filings,'updated' , 'test', '') %>
-<% today = DateTime.now.utc
-  todaytext = today.to_date
-
-  %>
 <%#= graph( get_common_elements(@filings.where(["DATE(updated) = ?", todaytext ]), "categories") , "filingcanvas" , 500 , 400 )%>
 
 <h1>Latest 100 filings</h1>
@@ -33,7 +27,7 @@ setTimeout('window.location.reload();', 60000);
   <tbody>
     <% @filings.reverse.take(100).each do |filing| %>
       <tr>
-        <td><%= link_to filing.title.sub('(' + filing.cik + ')' , '').titleize , Company.where("cik = ?", filing.cik).first %></td>
+        <td><%= link_to filing.title , Company.where("cik = ?", filing.cik).first if filing.cik != nil %></td>
         <!--<td><%#= filing.links %></td>-->
         <td><%= filing.updated %></td>
         <td><%= filing.categories %></td>

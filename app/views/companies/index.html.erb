@@ -2,7 +2,9 @@
 @products = Company.find(:all, :include => :filings).sort_by { |p| p.filings.count }
 
 %>
-<%#= link_to @products.first.name, @products.first %>
+<%#= link_to @products.first.name, @products.first %><br />
+<h1>Companies that file the most</h1>
+<%= pie_chart Filing.group("title").count.sort {|a,b| a[1] <=> b[1]}.reverse.take(7) %>
 
 <h1>Latest 100 Companies</h1>
 <table class='large-12 medium-12 small-12'>
