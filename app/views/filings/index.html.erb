@@ -7,6 +7,8 @@
 <%= column_chart Filing.group("categories").count.sort {|a,b| a[1] <=> b[1]}.reverse.take(5) %>
 
 <%#= graph( get_common_elements(@filings.where(["DATE(updated) = ?", todaytext ]), "categories") , "filingcanvas" , 500 , 400 )%>
+<%#= Filing.search { fulltext 'pizza' } %>
+<%= @filings.size %>
 
 <h1>Latest 100 filings</h1>
 <table class='large-12 medium-12 small-12'>

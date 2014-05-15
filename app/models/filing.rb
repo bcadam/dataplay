@@ -8,7 +8,7 @@
 #  url            :string(255)
 #  links          :string(255)
 #  summary        :string(255)
-#  updated        :date
+#  updated        :datetime
 #  categories     :string(255)
 #  file_id        :string(255)
 #  file_serial    :string(255)
@@ -17,11 +17,14 @@
 #  stockticker    :string(255)
 #  footnote       :text
 #  periodofreport :date
+#  irsnumber      :string(255)
 #
 
 class Filing < ActiveRecord::Base
-	attr_accessible :file_serial, :cik, :title, :url, :updated, :file_id
+	attr_accessible :file_serial, :cik, :title, :url, :updated, :file_id, :filingtext
 
 	belongs_to :company
+
+	
 
 end

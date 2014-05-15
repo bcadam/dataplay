@@ -7,7 +7,9 @@
 <%# @filing = @company.filings.create(updated: Time.now) %>
 <%#= @filing.id %>
 <%#= @filing.destroy %>
-
+<% if @company.filings.group("categories").count.size > 1 %>
+<%= pie_chart @company.filings.group("categories").count.sort {|a,b| a[1] <=> b[1]}.reverse.take(5)  %>
+<% end %>
 <div class='clearfix'>
 <p id="notice"><%= notice %></p>
 <p>

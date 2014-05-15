@@ -11,6 +11,11 @@ class HomeController < ApplicationController
   
     @recentFile = Filing.group("categories").count.sort {|a,b| a[1] <=> b[1]}.reverse.take(4)
     
+
+   # @tester = Filing.search { fulltext 'pizza' }
+
+
+
   end
 
   

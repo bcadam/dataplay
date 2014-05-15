@@ -15,6 +15,7 @@
 // Note: Foundation 5 won't work with turbolinks
 //= require foundation
 //= require_tree .
+
 $(function() {
   $(document).foundation();
 });

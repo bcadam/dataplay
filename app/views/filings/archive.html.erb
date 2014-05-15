@@ -1,7 +1,7 @@
 <% @error = 0 %>
 <% @correct = 0 %>
 
-<% ##Get the url of an xml from the year and quarter %>
+<% ##Goes through all the urls that are found within and XML and sends each to the maininfo method %>
 <% def getArchive(year, quarter) %>
 	<% 	@destination = "ftp://ftp.sec.gov/edgar/full-index/#{year}/#{quarter}/sitemap.quarterlyindex1.xml" %> 
 	<%	puts(@destination) %>
@@ -16,7 +16,7 @@
 
 <% end %>
 
-<% ##Pass main info in url and get the info we want %>
+<% ##Each URL found in the quartlery XML is sent here to be parsed %>
 <% def maininfo(target) %>
 
 	<% begin %>
@@ -168,6 +168,7 @@
 	    @filing.updated    		= formattedArray[0]
 	    @filing.categories 		= formattedArray[10]
 	    @filing.file_serial    	= formattedArray[1]
+	    @filing.filingtext		= Net::HTTP.get_response(URI.parse(target)).body
 	    @filing.url = target
 	          
 	          @company.cik = @filing.cik 
@@ -178,6 +179,7 @@
 	    @filing.save
 
 	   %>
+
 	<%#= debug(@filing) %>
 	<%#= debug(formattedArray) %>
 	<%#= debug(@filing.cik) %>
@@ -196,32 +198,45 @@
 <%# '<br /><br />'.html_safe %>
 <%# maininfo('http://www.sec.gov/Archives/edgar/data/356028/0000356028-14-000012.txt') #fucked %>
 
+<% def thisyear %>
+	<% 	@destination = "ftp://ftp.sec.gov/edgar/full-index/2014/QTR1/sitemap.quarterlyindex1.xml" %> 
+	<%	puts(@destination) %>
+	<% 	doc = Nokogiri::XML(open(@destination)) %>
+	<% 	#puts("The size of this is ====" + doc.css("url").size.to_s) %>
+	
+	<% doc.css("url").reverse.each do |entry| %>
+		<%		raw_url = entry.at_css('loc').to_s.sub('<loc>','').sub('</loc>','').sub('-index.htm','.txt').strip %>
+		<%		puts(raw_url) %>
+		<% 		maininfo(raw_url) %>
+		<%# '<br />'.html_safe %>
+	<% end %>
+<% end %>
 
-<%# i = 1996 %>
-<% i = 2014 %>
-<% num = DateTime.now.year - 1 %>
-<% quartArray = ["QTR1","QTR2","QTR3","QTR4"] %>
+<%#= Net::HTTP.get_response(URI.parse("http://www.sec.gov/Archives/edgar/data/3197/0001181431-14-000418-index.htm")).body %>
+	<% i = 2014 %>
+	<%# i = 2000 %>
+	<% num = DateTime.now.year - 1 %>
+	<% quartArray = ["QTR1","QTR2","QTR3","QTR4"] %>
 
-<% quarter = ((Time.now.month - 1) / 3) + 1 %>
-    
-<% while i <= num  do %>
+	<% quarter = ((Time.now.month - 1) / 3) + 1 %>
+	    
+	<% while i <= num  do %>
 
-	<% quartCount = 0 %>
+		<% quartCount = 0 %>
 
-	<% while quartCount <= 3  do %>
-	<% getArchive(i, quartArray[quartCount]) %>
-	<% quartCount += 1 %>
+		<% while quartCount <= 3  do %>
+		<% getArchive(i, quartArray[quartCount]) %>
+		<% quartCount += 1 %>
+		<% end %>
+
+		<% i +=1 %>
+
 	<% end %>
 
-	<% i +=1 %>
+		<% quartCount = 0 %>
+		<% "<div>#{i}</div>".html_safe %>
 
-<% end %>
-
-	<% quartCount = 0 %>
-	<% "<div>#{i}</div>".html_safe %>
-
-<% while quartCount < quarter  do %>
-	<% getArchive(i, quartArray[quartCount]) %>
-	<% quartCount += 1 %>
-<% end %>
-
+	<% while quartCount < quarter  do %>
+		<% getArchive(i, quartArray[quartCount]) %>
+		<% quartCount += 1 %>
+	<% end %>

@@ -22,7 +22,11 @@ gem 'json'
 gem 'rest_client'
 gem 'nokogiri'
 gem 'chartkick'
+gem "highcharts-rails", "~> 3.0.0"
 gem 'groupdate'
+
+#gem 'sunspot_rails'
+#gem 'sunspot_solr' # optional pre-packaged Solr distribution for use in development
 
 #gem 'open-uri'
 
